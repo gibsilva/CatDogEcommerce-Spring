@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -6,11 +7,8 @@
         <!--Fonts and icons-->
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-        <script src="/assets/js/core/jquery.min.js"></script>
-        <script src="/assets/js/core/popper.min.js"></script>
-        <script src="/assets/js/bootstrap-material-design.js"></script>
-        <link href="./assets/css/material-kit.css?v=2.0.5" rel="stylesheet" />
-        <link href="./assets/css/estilo.css" rel="stylesheet" />
+        <link href="/css/material-kit.css?v=2.0.5" rel="stylesheet" />
+        <link href="/css/estilo.css" rel="stylesheet" />
         <!-- CSS Files -->
         <script src="https://kit.fontawesome.com/ca6cebbed4.js" crossorigin="anonymous"></script>
 
@@ -45,7 +43,7 @@
         <nav class="navbar navbar-expand-lg bg-white m-0" id="menucd">
             <div class="container-fluid">
                 <div class="navbar-translate" >
-                    <a class="navbar-brand" href="${pageContext.request.contextPath}/Home">Home</a>
+                    <a class="navbar-brand" href="/">Home</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="navbar-toggler-icon"></span>
@@ -100,7 +98,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav"> 
-                        <a href="${pageContext.request.contextPath}/Carrinho">
+                        <a href="/carrinho">
                             <i class="fas fa-shopping-cart carrinhoIcone"></i>
                         </a>
                     </ul>
@@ -171,23 +169,30 @@
             </div>
         </div>
 
+        <main classrole="main" layout:fragment="conteudo">
+            <p>ESTE CONTEÚDO SERÁ SUBSTITUIDO PELOS CONTEÚDOS ESPECIFICOS DE CADA PÁGINA</p>
+        </main>
+
         <!--   Core JS Files   -->
-        <script src="./assets/js/core/jquery.min.js" type="text/javascript"></script>
-        <script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="./assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-        <script src="./assets/js/plugins/moment.min.js"></script>
+        <script src="/js/core/jquery.min.js"></script>
+        <script src="/js/core/popper.min.js"></script>
+        <script src="/js/bootstrap-material-design.js"></script>
+        <script src="/js/core/jquery.min.js" type="text/javascript"></script>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+        <script src="/js/plugins/moment.min.js"></script>
         <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-        <script src="./assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+        <script src="/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
         <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-        <script src="./assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
+        <script src="/js/plugins/nouislider.min.js" type="text/javascript"></script>
         <!--  Google Maps Plugin    -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGat1sgDZ-3y6fFe6HD7QUziVC6jlJNog"></script>
         <!-- Place this tag in your head or just before your close body tag. -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <!--	Plugin for Sharrre btn -->
-        <script src="./assets/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
+        <script src="/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
         <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-        <script src="./assets/js/material-kit.min.js" type="text/javascript"></script>
+        <script src="/js/material-kit.min.js" type="text/javascript"></script>
 
         <!-- js para modal-->
         <script>
