@@ -137,7 +137,6 @@ header{
 }
 
 .card {
-    margin-top: 12em;
     padding: 20px;
     width: 100%;
 }
@@ -267,8 +266,8 @@ header{
     color: pink;
     background-color: pink;
 }
-.cardlist{
-    margin-top: 3em !important;
+ist{
+    margin-top: 2em !important;
     width: 100%;
 }
 .cardProdutoList{
@@ -567,4 +566,7 @@ th{
 }
 .btn.btn-primary:hover{
     box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)
+}
+.card-carrinho{
+    margin-top: 12em ;
 }

@@ -31,4 +31,8 @@ public class HomeController {
     public String carrinho() {
         return "carrinho"; //aqui o nome da tela
     }
+    @GetMapping("/cadastroCliente") //chamada na url
+    public String cadastroCliente() {
+        return "cadastroCliente"; //aqui o nome da tela
+    }
 }

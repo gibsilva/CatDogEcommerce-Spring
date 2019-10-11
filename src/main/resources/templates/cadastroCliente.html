@@ -1,0 +1,54 @@
+<html layout:decorate="~{navbarComponent}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Cadastro de cliente</title>
+    </head>
+    <body>
+        <main layout:fragment="conteudo">
+            <section class="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6 ">
+                            <form>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="nomeCompletoInput">Nome completo</label>
+                                            <input type="text" class="form-control" id="nomeCompletoInput" placeholder="Seu nome aqui">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="EmailInput">Email</label>
+                                            <input type="text" class="form-control" id="EmailInput" placeholder="email@example.com">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="sexoSelect">Sexo</label>
+                                            <select class="form-control selectpicker" data-style="btn btn-link" id="sexoSelect">
+                                                <option>Masculino</option>
+                                                <option>Feminino</option>
+                                                <option>Outro</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label class="label-control">Data de nascimento</label>
+                                            <input type="text" class="form-control datetimepicker" value="10/05/2016"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-6 justify-content-center">
+
+                        </div>
+                    </div>
+            </section>
+        </main>
+    </body>
+</html>
