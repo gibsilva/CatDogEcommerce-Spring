@@ -570,3 +570,17 @@ th{
 .card-carrinho{
     margin-top: 12em ;
 }
+.btn-cadastroCliente{
+    border: 2px solid #00aec5 !important;
+    color: #00aec5 !important;
+}
+.btnCriarConta{
+    width: 60%;
+    background-color:  #28a745 !important;
+}
+.formCadastroCliente{
+    margin-top: 10em;
+}
+.btn-logar{
+    background-color: #28a745 !important;
+}
