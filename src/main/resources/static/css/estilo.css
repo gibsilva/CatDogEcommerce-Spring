@@ -21,16 +21,19 @@ and open the template in the editor.
 .fa-shopping-cart:hover{
     color: black;
 }
-.carrinhoIcone{
-    padding-right: 40px;
-    padding-bottom: 10px;
-}
 .fa-shopping-cart{
     text-align: center;
-    color:  #00aec5;
-    width: 100%;
-    font-size: 30px;
-    padding-top: 15px;
+    color:  white;
+    font-size: 17px;
+}
+.btn-carrinho{
+    background-color:#00aec5; 
+    max-height: 41px !important;
+    max-width: 157px !important;
+    color: white;
+}
+.btn-carrinho label{
+    color: white;
 }
 .navbar{
     padding: 8px;
@@ -554,8 +557,8 @@ th{
 }
 
 .card-header{
-   background: #00aec5 !important;
-   color: white;
+    background: #00aec5 !important;
+    color: white;
 }
 .btnContinuar{
     width: 100%;
