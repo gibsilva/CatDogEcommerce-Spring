@@ -123,6 +123,14 @@
                                 <div class="tab-pane" id="messages">
                                     <h3 >Endereço</h3>
                                     <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="nomeDestInput">Nome do destinatário</label>
+                                                <input  type="text" class="form-control" id="nomeDestInput" name="nomeDestInput" placeholder="Quem irá receber ?">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-4">
                                             <div class="form-group">
                                                 <label for="cepInput">CEP</label>
@@ -152,11 +160,18 @@
                                         </div>
                                     </div>
                                     <div class="row"> 
-                                        <div class="col-12">
+                                        <div class="col-8">
                                             <div class="form-group">
                                                 <label for="bairroInput">Bairro</label>
-                                                <input  type="text" class="form-control" id="bairro" name="bairro" placeholder="Jd Maria"
-                                                        readonly >
+                                                <input  type="text" class="form-control" id="bairro" name="bairro" placeholder="Jd Maria" readonly> 
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="TipoEndSelect">Tipo de endereço</label>
+                                                <select class="form-control selectpicker" data-style="btn btn-link" id="TipoEndSelect" name="TipoEndSelect" required >
+                                                    <option value="" >Residencial</option>
+                                                </select>           
                                             </div>
                                         </div>
                                     </div>
@@ -192,7 +207,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-sm-12"> 
-                                             <div class="form-group">
+                                            <div class="form-group">
                                                 <label for="numeroCartaoInput">Nº do cartão</label>
                                                 <input  type="text" class="form-control" id="numCartao" name="cliente" placeholder="0000 0000 0000 0000" required>
                                             </div>
@@ -206,13 +221,13 @@
                                             </div>
                                         </div>
                                         <div class="col-6"> 
-                                             <div class="form-group">
+                                            <div class="form-group">
                                                 <label for="codSegurancaInput">Cód. de segurança  </label>
                                                 <input  type="text" class="form-control" id="codSeguranca" name="codSeguranca" placeholder="CVV" maxlength="3" required>
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="row ">
+                                    <div class="row ">
                                         <div class="col-sm-2 offset-sm-7 col-lg-2 offset-lg-10 text-center">
                                             <button type="submit" class="btn btn-round btn-primary btnCriarConta">Salvar</button>
                                         </div>
