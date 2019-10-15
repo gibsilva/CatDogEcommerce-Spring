@@ -13,6 +13,7 @@ and open the template in the editor.
 
 .btn-login{
     background-color: #00aec5 !important;
+    margin-left: 2px;
 }
 
 .detalheForm{
@@ -26,14 +27,20 @@ and open the template in the editor.
     color:  white;
     font-size: 17px;
 }
+.btn-carrinho-iframe{
+    padding-bottom: 0 !important;
+    margin-right: 2px;
+}
 .btn-carrinho{
+    width: 80%;
     background-color:#00aec5; 
-    max-height: 41px !important;
-    max-width: 157px !important;
+    min-width: 159px !important;
+    max-height: 43px !important;
     color: white;
 }
 .btn-carrinho label{
     color: white;
+    font-size: 12px;
 }
 .navbar{
     padding: 8px;
@@ -258,10 +265,8 @@ header{
     border: 0;
     outline: none;
 }
-.btn-login{
-    float: right;
-}
 .fa-user{
+    margin: 2px;
     font-size: 15px;
     font-weight: 500;
 }
@@ -586,4 +591,8 @@ th{
 }
 .btn-logar{
     background-color: #28a745 !important;
+}
+.btn-add-endereco{
+    background-color: #28a745;
+    margin-bottom: 10px;
 }
