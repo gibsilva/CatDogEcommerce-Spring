@@ -47,16 +47,16 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-lg-6 col-sm-12">
                                                 <div class="form-group">
                                                     <label for="nomeCompletoInput">Nome</label>
                                                     <input th:field="*{nome}" type="text" class="form-control" id="cliente" name="cliente" placeholder="Seu nome aqui" required>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-lg-6 col-sm-12">
                                                 <div class="form-group">
                                                     <label for="EmailInput">Email</label>
-                                                    <input th:field="*{email}" type="email" class="form-control" id="email" name="email" placeholder="email@example.com" required>
+                                                    <input th:field="*{email}" type="email" class="form-control" id="emailForm" name="email" placeholder="email@example.com" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -64,7 +64,9 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="label-control">Data de nascimento</label>
-                                                    <input type="date" name="dataNasc" class="form-control" th:classappend="${#fields.hasErrors('dataNasc')}? is-invalid" id="dataNasc" placeholder="Data no formato yyyy-MM-dd" th:field="*{dataNasc}" th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+                                                    <input type="date" name="dataNasc" class="form-control" th:classappend="${#fields.hasErrors('dataNasc')}? is-invalid" 
+                                                           id="dataNasc" placeholder="Data no formato yyyy-MM-dd" th:field="*{dataNasc}" 
+                                                           th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
                                                 </div>
                                             </div>
                                             <div class="col-6">
@@ -102,10 +104,10 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="senhaInput">Senha</label>
-                                                    <input th:field="*{senha}" type="password" class="form-control" id="senha" name="senha" required>
+                                                    <input th:field="*{senha}" type="password" class="form-control" id="senhaForm" name="senha" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="confirmarSenhaInput">Confirmar senha</label>
                                                     <input type="password" class="form-control" id="confirmarSenha" name="confirmarSenha" >
@@ -114,14 +116,22 @@
                                         </div>
 
                                         <div class="row ">
-                                            <div class="col-6 text-center">
-                                                <button type="submit" class="btn btn-round btn-primary btnCriarConta">Salvar</button>
+                                            <div class="col-sm-2 offset-sm-7 col-lg-2 offset-lg-10 text-center">
+                                                <button type="submit" class="btn btn-round btn-primary btnCriarConta">Continuar</button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="tab-pane" id="messages">
                                     <h3 >Endereço</h3>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="nomeDestInput">Nome do destinatário</label>
+                                                <input  type="text" class="form-control" id="nomeDestInput" name="nomeDestInput" placeholder="Quem irá receber ?">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-4">
                                             <div class="form-group">
@@ -138,14 +148,13 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-2">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <label for="numeroInput">Número</label>
-                                                <input  type="text" class="form-control" id="numero" name="numero" placeholder="1234"
-                                                        >
+                                                <input  type="text" class="form-control" id="numero" name="numero" placeholder="1234">
                                             </div>
                                         </div>
-                                        <div class="col-10">
+                                        <div class="col-9">
                                             <div class="form-group">
                                                 <label for="complementoInput">Complemento</label>
                                                 <input  type="text" class="form-control" id="complemento" name="complemento" placeholder="Apto ***">
@@ -153,11 +162,18 @@
                                         </div>
                                     </div>
                                     <div class="row"> 
-                                        <div class="col-12">
+                                        <div class="col-8">
                                             <div class="form-group">
                                                 <label for="bairroInput">Bairro</label>
-                                                <input  type="text" class="form-control" id="bairro" name="bairro" placeholder="Jd Maria"
-                                                        readonly >
+                                                <input  type="text" class="form-control" id="bairro" name="bairro" placeholder="Jd Maria" readonly> 
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="TipoEndSelect">Tipo de endereço</label>
+                                                <select class="form-control selectpicker" data-style="btn btn-link" id="TipoEndSelect" name="TipoEndSelect" required >
+                                                    <option value="" >Residencial</option>
+                                                </select>           
                                             </div>
                                         </div>
                                     </div>
@@ -178,13 +194,46 @@
                                         </div>
                                     </div>
                                     <div class="row ">
-                                        <div class="col-6 text-center">
-                                            <button type="submit" class="btn btn-round btn-primary btnCriarConta">Salvar</button>
+                                        <div class="col-sm-2 offset-sm-7 col-lg-2 offset-lg-10 text-center">
+                                            <button type="submit" class="btn btn-round btn-primary btnCriarConta">Continuar</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane " id="settings">
-                                    <p>I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. So when you get something that has the name Kanye West on it, it’s supposed to be pushing the furthest possibilities. I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus.</p>
+                                    <h3>Cartão</h3>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label for="nomeCartaoInput">Nome</label>
+                                                <input  type="text" class="form-control" id="nomeCartao" name="cliente" placeholder="Titular do cartão" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-12"> 
+                                            <div class="form-group">
+                                                <label for="numeroCartaoInput">Nº do cartão</label>
+                                                <input  type="text" class="form-control" id="numCartao" name="cliente" placeholder="0000 0000 0000 0000" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="validadeCartaoInput">Data de validade</label>
+                                                <input type="text" name="dataValidade" class="form-control" id="dataValidade" placeholder="02/2020">
+                                            </div>
+                                        </div>
+                                        <div class="col-6"> 
+                                            <div class="form-group">
+                                                <label for="codSegurancaInput">Cód. de segurança  </label>
+                                                <input  type="text" class="form-control" id="codSeguranca" name="codSeguranca" placeholder="CVV" maxlength="3" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-sm-2 offset-sm-7 col-lg-2 offset-lg-10 text-center">
+                                            <button type="submit" class="btn btn-round btn-primary btnCriarConta">Salvar</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

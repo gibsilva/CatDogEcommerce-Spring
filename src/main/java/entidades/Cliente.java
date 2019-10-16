@@ -7,7 +7,6 @@ package entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author Girlaine Silva
  */
 @Data
-@Entity(name = "cliente")
+@Entity
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
