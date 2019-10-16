@@ -64,7 +64,9 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="label-control">Data de nascimento</label>
-                                                    <input type="date" name="dataNasc" class="form-control" th:classappend="${#fields.hasErrors('dataNasc')}? is-invalid" id="dataNasc" placeholder="Data no formato yyyy-MM-dd" th:field="*{dataNasc}" th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+                                                    <input type="date" name="dataNasc" class="form-control" th:classappend="${#fields.hasErrors('dataNasc')}? is-invalid" 
+                                                           id="dataNasc" placeholder="Data no formato yyyy-MM-dd" th:field="*{dataNasc}" 
+                                                           th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
                                                 </div>
                                             </div>
                                             <div class="col-6">
