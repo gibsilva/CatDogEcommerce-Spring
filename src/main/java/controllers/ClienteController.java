@@ -29,13 +29,14 @@ public class ClienteController {
         this.repositorio = repositorio;
     }
 
-//    @GetMapping("/lista")
-//    public ModelAndView listaClientes() {
-//        List<Cliente> clientes = repositorio.findAll();
-//        ModelAndView view = new ModelAndView("cliente/lista-cliente");
-//        view.addObject("cliente", clientes);
-//        return view;
-//    }
+    @GetMapping("/lista")
+    public ModelAndView listaClientes() {
+        List<Cliente> clientes = repositorio.findAll();
+        ModelAndView view = new ModelAndView("cliente/lista-cliente");
+        view.addObject("cliente", clientes);
+        return view;
+    }
+    
     @GetMapping("/salvar")
     public ModelAndView salvar(Cliente cliente) {
         ModelAndView view = new ModelAndView("clientes/incluir-cliente");
