@@ -19,4 +19,7 @@ public interface IClienteRepositorio extends JpaRepository<Cliente, Integer> {
 
 	@Query(value = "SELECT * FROM cliente WHERE email = :email and senha = :senha", nativeQuery = true)
 	public Cliente findByEmailAndSenha(@Param("email")String email, @Param("senha")String senha);
+	
+	@Query(value = "SELECT * FROM cliente WHERE senha = :senha and id = :id", nativeQuery = true)
+	public Cliente comparaSenha(@Param("senha")String senha, @Param("id")Integer id);
 }
