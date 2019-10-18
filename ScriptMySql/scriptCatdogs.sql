@@ -78,6 +78,7 @@ CREATE TABLE imagem (
 CREATE TABLE cliente (
   Id int NOT NULL AUTO_INCREMENT,
   Nome varchar(80) NOT NULL,
+  Sobrenome varchar(80) NOT NULL,
   Cpf varchar(11) NOT NULL,
   Email varchar(80) NOT NULL,
   Senha varchar(16) NOT NULL,
