@@ -63,10 +63,12 @@ public class ClienteController {
             }
         }
 
-        if (bindingResult.hasErrors()) 
+        if (bindingResult.hasErrors()) { 
             return new ModelAndView("clientes/incluir-cliente");
-        else 
+        } else {
+        	cliente.setSenhaEncriptada(cliente.getSenha());
             repositorio.save(cliente);
+        }
         
 
         ModelAndView view = new ModelAndView("redirect:/");

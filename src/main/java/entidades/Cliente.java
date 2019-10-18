@@ -23,6 +23,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -50,7 +52,26 @@ public class Cliente implements Serializable {
         this.cpf = cpf;
         this.email = email;
         this.dataNasc = dataNasc;
-        this.senha = senha;
+        if (senha.length() == 60) {
+            this.senha = senha;
+        } else {
+            setSenhaEncriptada(senha);
+        }
+        this.telefone = telefone;
+        this.celular = celular;
+        this.sexo = sexo;
+        this.ativo = ativo;
+    }
+    
+    public Cliente(int id, String nome, String sobrenome, String cpf, String email,
+            LocalDate dataNasc, String telefone, String celular, String sexo, Boolean ativo) {
+
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.cpf = cpf;
+        this.email = email;
+        this.dataNasc = dataNasc;
         this.telefone = telefone;
         this.celular = celular;
         this.sexo = sexo;
@@ -86,7 +107,6 @@ public class Cliente implements Serializable {
 
     @Column(name = "senha")
     @NotBlank(message = "Campo senha é obrigatório")
-    @Min(5)
     private String senha;
 
     @Column(name = "telefone")
@@ -104,7 +124,7 @@ public class Cliente implements Serializable {
 
     @Column(name = "ativo")
     private Boolean ativo;
-
+    
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
     private List<Endereco> enderecos;
 
@@ -202,5 +222,14 @@ public class Cliente implements Serializable {
 
     public void setEnderecos(List<Endereco> enderecos) {
         this.enderecos = enderecos;
+    }
+    
+    public final void setSenhaEncriptada(String senha) {
+        this.senha = BCrypt.hashpw(senha, BCrypt.gensalt(12));
+    }
+
+    public boolean validarSenha(String senha) {
+        boolean senhaValida = BCrypt.checkpw(senha, this.getSenha());
+        return senhaValida;
     }
 }

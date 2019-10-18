@@ -59,7 +59,7 @@ public class LoginController {
             return new ModelAndView("login");
         }
         
-        Cliente clienteLogado = repositorio.findByEmailAndSenha(cliente.getEmail(), cliente.getSenha());
+        Cliente clienteLogado = autenticar(cliente.getEmail(), cliente.getSenha());
         ModelAndView view;
         if(clienteLogado != null){
             session.setAttribute("usuarioLogado", clienteLogado);
@@ -77,5 +77,12 @@ public class LoginController {
     public ModelAndView logout(HttpSession session){
     	session.invalidate();
     	return new ModelAndView("redirect:/");
+    }
+    
+	private final Cliente autenticar(String email, String senha){
+    	Cliente cliente = repositorio.findByEmail(email);
+    	if(cliente != null && cliente.validarSenha(senha))
+    		return cliente;
+    	return null;
     }
 }
