@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,16 +18,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import repositorios.IClienteRepositorio;
+import repositorios.IEnderecoRepositorio;
 
 @Controller
 @RequestMapping("/cliente")
 public class ClienteController {
 
     private final IClienteRepositorio repositorio;
+    private final IEnderecoRepositorio enderecoRepositorio;
 
     @Autowired
-    public ClienteController(IClienteRepositorio repositorio) {
+    public ClienteController(IClienteRepositorio repositorio, IEnderecoRepositorio enderecoRepositorio) {
         this.repositorio = repositorio;
+        this.enderecoRepositorio = enderecoRepositorio;
     }
 
     @GetMapping("/lista")
@@ -59,11 +63,11 @@ public class ClienteController {
             }
         }
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) 
             return new ModelAndView("clientes/incluir-cliente");
-        } else {
+        else 
             repositorio.save(cliente);
-        }
+        
 
         ModelAndView view = new ModelAndView("redirect:/");
         redirAttr.addFlashAttribute("cliente", cliente);
@@ -80,14 +84,21 @@ public class ClienteController {
     @PostMapping("/alterar")
     public ModelAndView alterar(@ModelAttribute("cliente") @Valid Cliente cliente,
             BindingResult bindingResult, RedirectAttributes redirAttr) {
-        if (bindingResult.hasErrors()) {
-            return new ModelAndView("clientes/incluir-cliente");
-        } else {
-            repositorio.save(cliente);
-        }
+        if (bindingResult.hasErrors()) 
+            return new ModelAndView("clientes/alterar-cliente");
+        else 
+            repositorio.save(cliente);       
 
-        ModelAndView view = new ModelAndView("redirect:/");
+        ModelAndView view = new ModelAndView("redirect:/cliente/perfil/" + cliente.getId());
         redirAttr.addFlashAttribute("cliente", cliente);
+        return view;
+    }
+    
+    @GetMapping("/perfil/{id}")
+    public ModelAndView perfil(@PathVariable("id") Integer id) {
+        ModelAndView view = new ModelAndView("clientes/meuPerfil");
+        view.addObject("cliente", repositorio.findById(id));
+        view.addObject("enderecosCliente", enderecoRepositorio.findByIdCliente(id));
         return view;
     }
 }

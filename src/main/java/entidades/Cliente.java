@@ -7,23 +7,33 @@ package entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.Data;
 
 /**
  *
  * @author Girlaine Silva
  */
+@Data
 @Entity
+@Table(name = "cliente")
 public class Cliente implements Serializable {
 
     private static long serialVersionUID = 1L;
@@ -31,11 +41,12 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(int id, String nome, String cpf, String email,
+    public Cliente(int id, String nome, String sobrenome, String cpf, String email,
             LocalDate dataNasc, String senha, String telefone, String celular, String sexo, Boolean ativo) {
 
         this.id = id;
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.cpf = cpf;
         this.email = email;
         this.dataNasc = dataNasc;
@@ -51,26 +62,30 @@ public class Cliente implements Serializable {
     private Integer id;
 
     @Column(name = "nome")
-    @NotBlank(message = "Nome Obrigatório")
+    @NotBlank(message = "Campo Nome é obrigatório")
     private String nome;
+    
+    @Column(name = "sobrenome")
+    @NotBlank(message = "Sobrenome é obrigatório")
+    private String sobrenome;
 
     @Column(name = "cpf")
-    @NotBlank(message = "Cpf Obrigatório")
+    @NotBlank(message = "Cpf obrigatório")
     @Size(min = 11, max = 11)
     private String cpf;
 
     @Column(name = "email")
-    @NotBlank(message = "Email Obrigatório")
+    @NotBlank(message = "Email é obrigatório")
     @Email
     private String email;
 
-    @Column(name = "DataNasc")
+    @Column(name = "datanasc")
     @Past
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataNasc;
 
     @Column(name = "senha")
-    @NotBlank(message = "Campo Obrigatório")
+    @NotBlank(message = "Campo senha é obrigatório")
     @Min(5)
     private String senha;
 
@@ -79,167 +94,113 @@ public class Cliente implements Serializable {
     private String telefone;
 
     @Column(name = "celular")
-    @NotBlank(message = "Celular Obrigatório")
+    @NotBlank(message = "Campo celular é obrigatório")
     @Size(min = 11, max = 11)
     private String celular;
 
+    @NotBlank(message = "Campo sexo é obrigatório")
     @Column(name = "sexo")
     private String sexo;
 
     @Column(name = "ativo")
     private Boolean ativo;
 
-    /**
-     * @return the serialVersionUID
-     */
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
+    private List<Endereco> enderecos;
 
-    /**
-     * @param aSerialVersionUID the serialVersionUID to set
-     */
-    public static void setSerialVersionUID(long aSerialVersionUID) {
-        serialVersionUID = aSerialVersionUID;
-    }
-
-    /**
-     * @return the id
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * @param id the id to set
-     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * @return the nome
-     */
     public String getNome() {
         return nome;
     }
 
-    /**
-     * @param nome the nome to set
-     */
     public void setNome(String nome) {
         this.nome = nome;
     }
+    
+    public String getSobrenome() {
+        return sobrenome;
+    }
 
-    /**
-     * @return the cpf
-     */
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
+
     public String getCpf() {
         return cpf;
     }
 
-    /**
-     * @param cpf the cpf to set
-     */
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    /**
-     * @return the email
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @return the dataNasc
-     */
     public LocalDate getDataNasc() {
         return dataNasc;
     }
 
-    /**
-     * @param dataNasc the dataNasc to set
-     */
     public void setDataNasc(LocalDate dataNasc) {
         this.dataNasc = dataNasc;
     }
 
-    /**
-     * @return the senha
-     */
     public String getSenha() {
         return senha;
     }
 
-    /**
-     * @param senha the senha to set
-     */
     public void setSenha(String senha) {
         this.senha = senha;
     }
 
-    /**
-     * @return the telefone
-     */
     public String getTelefone() {
         return telefone;
     }
 
-    /**
-     * @param telefone the telefone to set
-     */
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
-    /**
-     * @return the celular
-     */
     public String getCelular() {
         return celular;
     }
 
-    /**
-     * @param celular the celular to set
-     */
     public void setCelular(String celular) {
         this.celular = celular;
     }
 
-    /**
-     * @return the sexo
-     */
     public String getSexo() {
         return sexo;
     }
 
-    /**
-     * @param sexo the sexo to set
-     */
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 
-    /**
-     * @return the ativo
-     */
     public Boolean getAtivo() {
         return ativo;
     }
 
-    /**
-     * @param ativo the ativo to set
-     */
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
     }
 }

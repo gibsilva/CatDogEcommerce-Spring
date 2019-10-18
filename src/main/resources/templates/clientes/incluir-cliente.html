@@ -20,16 +20,19 @@
                                                 <i class="material-icons">face</i> Dados Pessoais
                                             </a>
                                         </li>
+                                        <!--  
                                         <li class="nav-item">
                                             <a class="nav-link" href="#messages" data-toggle="tab">
                                                 <i class="material-icons">chat</i> Endereços
                                                 <div class="ripple-container"></div></a>
                                         </li>
+                                        
                                         <li class="nav-item">
                                             <a class="nav-link " href="#settings" data-toggle="tab">
                                                 <i class="material-icons">credit_card</i> Cartões
                                                 <div class="ripple-container"></div></a>
                                         </li>
+                                        -->
                                     </ul>
                                 </div>
                             </div>
@@ -50,17 +53,23 @@
                                             <div class="col-lg-6 col-sm-12">
                                                 <div class="form-group">
                                                     <label for="nomeCompletoInput">Nome</label>
-                                                    <input th:field="*{nome}" type="text" class="form-control" id="cliente" name="cliente" placeholder="Seu nome aqui" required>
+                                                    <input th:field="*{nome}" type="text" class="form-control" id="nome" name="nome" placeholder="Seu nome aqui" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-sm-12">
                                                 <div class="form-group">
-                                                    <label for="EmailInput">Email</label>
-                                                    <input th:field="*{email}" type="email" class="form-control" id="emailForm" name="email" placeholder="email@example.com" required>
+                                                    <label for="nomeCompletoInput">Sobrenome</label>
+                                                    <input th:field="*{sobrenome}" type="text" class="form-control" id="sobrenome" name="sobrenome" placeholder="Seu sobrenome aqui" required>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="col-lg-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="EmailInput">Email</label>
+                                                    <input th:field="*{email}" type="email" class="form-control" id="email" name="email" placeholder="email@exemplo.com" required>
+                                                </div>
+                                            </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="label-control">Data de nascimento</label>
@@ -75,19 +84,19 @@
                                                     <input th:field="*{cpf}" type="text" class="form-control" id="cpf" 
                                                            name="cpf" placeholder="000.000.000-00" maxlength="11" required>
                                                 </div>
-                                            </div> 
-                                        </div>
-                                        <div class="row">
+                                            </div>
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="sexoSelect">Sexo</label>
-                                                    <select th:field="*{sexo}" class="form-control selectpicker" data-style="btn btn-link" id="sexo" name="sexo" required>
+                                                    <select th:field="*{sexo}" class="form-control" id="sexo" name="sexo" required>
                                                         <option value="M" >Masculino</option>
                                                         <option value="F">Feminino</option>
                                                         <option value="O">Outro</option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> 
+                                        </div>
+                                        <div class="row">
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="celularInput">Celular</label>
@@ -120,7 +129,7 @@
 
                                         <div class="row ">
                                             <div class="col-sm-2 offset-sm-7 col-lg-2 offset-lg-10 text-center">
-                                                <button type="submit" class="btn btn-round btn-primary btnCriarConta">Continuar</button>
+                                                <button type="submit" class="btn btn-round btn-primary btnCriarConta">Salvar</button>
                                             </div>
                                         </div>
                                     </form>
