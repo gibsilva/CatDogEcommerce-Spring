@@ -86,6 +86,7 @@ CREATE TABLE cliente (
   Telefone varchar(13) NOT NULL,
   Celular varchar(13) DEFAULT NULL,
   Sexo varchar(1) NOT NULL,
+  Ativo bit(1) NOT NULL,
   DataHoraCriacao datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (Id),
   UNIQUE KEY Cpf (Cpf),
