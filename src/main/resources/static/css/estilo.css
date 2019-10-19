@@ -266,7 +266,9 @@ header{
     outline: none;
 }
 .fa-user{
-    margin: 2px;
+    margin-left: 5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
     font-size: 15px;
     font-weight: 500;
 }
@@ -595,4 +597,8 @@ th{
 .btn-add-endereco{
     background-color: #28a745;
     margin-bottom: 10px;
+}
+.cardLogin{
+    margin: 10px !important  ;
+    
 }

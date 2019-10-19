@@ -112,48 +112,48 @@
                             </form>
                         </li>
                     </ul>
+                    <br>
                     <ul class="navbar-nav">
-                    <!--  BOTÃO ANTERIOR MINHA CONTA
-                        <li class="button-container nav-item iframe-extern ">
-                            <form class="input-group-btn ml-auto">
-                            <div th:if="${session.usuarioLogado}">
-                            	<button type="button" id="btnLogin" name="btnLogin"
-                                        class="btn btn-round btn-primary btn-login" onclick="abrirLogin()">                                    
-                                    <i class="fas fa-user"></i><span th:text="${session.usuarioLogado.nome}"></span>
-                                    <div class="ripple-container"></div>
-                                </button>
-                            </div>
-                            <div th:unless="${session.usuarioLogado}">
-                                <button type="button" id="btnLogin" name="btnLogin"
-                                        class="btn btn-round btn-primary btn-login" onclick="abrirLogin()">
-                                    Minha Conta
-                                    <i class="fas fa-user"></i>
-                                    <div class="ripple-container"></div>
-                                </button>
-                            </div>
-                            </form>
-                        </li>
+                        <!--  BOTÃO ANTERIOR MINHA CONTA
+                            <li class="button-container nav-item iframe-extern ">
+                                <form class="input-group-btn ml-auto">
+                                <div th:if="${session.usuarioLogado}">
+                                    <button type="button" id="btnLogin" name="btnLogin"
+                                            class="btn btn-round btn-primary btn-login" onclick="abrirLogin()">                                    
+                                        <i class="fas fa-user"></i><span th:text="${session.usuarioLogado.nome}"></span>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </div>
+                                <div th:unless="${session.usuarioLogado}">
+                                    <button type="button" id="btnLogin" name="btnLogin"
+                                            class="btn btn-round btn-primary btn-login" onclick="abrirLogin()">
+                                        Minha Conta
+                                        <i class="fas fa-user"></i>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </div>
+                                </form>
+                            </li>
                         -->
                         <li class="nav-item dropdown">
-                        	<a class="btn btn-round btn-primary btn-login" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        	<i class="fas fa-user"></i>
-	            				<div th:if="${session.usuarioLogado}">
-	            					<span th:text="${session.usuarioLogado.nome}"></span>
-	            				</div>
-	            				<div th:unless="${session.usuarioLogado}">
-	            					Minha Conta
-	            				</div>
-          					</a>
-          					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					            <div th:if="${session.usuarioLogado}">
-						            <a class="dropdown-item" th:href="@{/cliente/perfil/{id}(id=${session.usuarioLogado.id})}">Perfil</a>
-						            <a class="dropdown-item" href="#">Meus pedidos</a>
-						            <a class="dropdown-item" th:href="@{/logout}">Sair</a>
-					            </div>
-					            <div th:unless="${session.usuarioLogado}">
-					            	<a class="dropdown-item" th:href="@{/login}">Entrar</a>
-					            </div>
-          					</div>
+                            <a class="btn btn-round btn-primary btn-login" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div th:if="${session.usuarioLogado}">
+                                    <span th:text="${session.usuarioLogado.nome}"></span><i class="fas fa-user"></i>
+                                </div>
+                                <div th:unless="${session.usuarioLogado}">
+                                    Minha Conta<i class="fas fa-user"></i>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <div th:if="${session.usuarioLogado}">
+                                    <a class="dropdown-item" th:href="@{/cliente/perfil/{id}(id=${session.usuarioLogado.id})}">Perfil</a>
+                                    <a class="dropdown-item" href="#">Meus pedidos</a>
+                                    <a class="dropdown-item" th:href="@{/logout}">Sair</a>
+                                </div>
+                                <div th:unless="${session.usuarioLogado}">
+                                    <a class="dropdown-item" th:href="@{/login}">Entrar</a>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -216,7 +216,7 @@
                 </div>
             </div>
         </div>
-        
+
 
         <main classrole="main" layout:fragment="conteudo">
             <p>ESTE CONTEÚDO SERÁ SUBSTITUIDO PELOS CONTEÚDOS ESPECIFICOS DE CADA PÁGINA</p>
@@ -244,9 +244,9 @@
 
         <!-- js para modal-->
         <script>
-                                            function abrirLogin() {
-                                                $('#loginModal').modal();
-                                            }
+            function abrirLogin() {
+                $('#loginModal').modal();
+            }
         </script>
     </body>
 
