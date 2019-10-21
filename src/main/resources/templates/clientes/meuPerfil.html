@@ -44,9 +44,9 @@
                                     <h3>Meus pedidos</h3>
                                 </div>
                                 <div class="tab-pane" id="profile">
-								<form th:object="${cliente}" th:action="@{/cliente/alterar}" method="POST">
-                                    	<input th:field="*{id}" type="hidden" id="id" name="id">
-                                    	<input th:field="*{senha}" type="hidden" id="id" name="id">
+                                    <form th:object="${cliente}" th:action="@{/cliente/alterar}" method="POST">
+                                        <input th:field="*{id}" type="hidden" id="id" name="id">
+                                        <input th:field="*{senha}" type="hidden" id="id" name="id">
                                         <h3>Dados Pessoais</h3>
                                         <div class="form-group row">
                                             <div class="" th:if="${#fields.hasAnyErrors()}">
@@ -62,7 +62,7 @@
                                                     <input th:field="*{nome}" type="text" class="form-control" id="nome" name="nome" placeholder="Seu nome aqui" required>
                                                 </div>
                                             </div>
-                                        <div class="col-6">
+                                            <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="nomeCompletoInput">Sobrenome</label>
                                                     <input th:field="*{sobrenome}" type="text" class="form-control" id="sobrenome" name="sobrenome" placeholder="Seu sobrenome aqui" required>
@@ -70,7 +70,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                           <div class="col-6">
+                                            <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="cpfInput">CPF</label>
                                                     <input th:field="*{cpf}" type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00" required>
@@ -84,7 +84,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                           <div class="col-6">
+                                            <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="label-control">Data de Nascimento</label>
                                                     <input type="date" name="dataNasc" class="form-control" th:classappend="${#fields.hasErrors('dataNasc')}? is-invalid" id="dataNasc" placeholder="Data no formato yyyy-MM-dd" th:field="*{dataNasc}" th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
@@ -104,7 +104,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                           <div class="col-4">
+                                            <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="sexoSelect">Sexo</label>
                                                     <select th:field="*{sexo}" class="form-control selectpicker" data-style="btn btn-link" id="sexo" name="sexo" required>
@@ -132,7 +132,7 @@
                                         </div>
                                         -->
                                         <div class="row ">
-                                            <div class="col-md-3 text-center">
+                                            <div class="offset-md-9 col-md-3 text-center">
                                                 <button type="submit" class="btn btn-round btn-primary btnCriarConta">Salvar</button>
                                             </div>
                                         </div>
@@ -143,11 +143,11 @@
                                     <div class="row">
                                         <!-- Botão para acionar modal -->
                                         <div class="col-sm-2 offset-sm-7 col-lg-2 offset-lg-10 text-center">
-                                        <!--  
-                                            <button type="button" class="btn btn-round btn-add-endereco" data-toggle="modal" data-target="#modalEndNovo">
-                                                <i class="material-icons">add</i>Adicionar
-                                            </button>
-                                         -->
+                                            <!--  
+                                                <button type="button" class="btn btn-round btn-add-endereco" data-toggle="modal" data-target="#modalEndNovo">
+                                                    <i class="material-icons">add</i>Adicionar
+                                                </button>
+                                            -->
                                             <a class="btn btn-round btn-add-endereco" th:href="@{/endereco/salvar/{id}(id=${session.usuarioLogado.id})}"><i class="material-icons">add</i>Adicionar</a>
                                         </div>
                                         <!-- Modal -->
@@ -243,97 +243,96 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <!--  
-                                        <table class="table">
-                                        	<thead>
-                                        		<tr>
-                                        			<th class="text-center"><b>Id</b></th>
-                                        		</tr>
-                                        	</thead>
-                                        	<tbody>
-                                        		<tr th:each="c : ${enderecosCliente}">
-                                        			<td th:text="${c.id}" class="text-center"></td>
-                                        		</tr>
-                                        	</tbody>
-                                        </table>
-                                        -->
-                                         <div th:each="c : ${enderecosCliente}"> 
-                                            <div class="card cardCarrinhoValor">                                 
-                                            
-                                                <div class="card-body">
-                                                    <h3><i class="fas fa-map-marker-alt"></i>Endereço <span th:text="${c.tipoEndereco}"></span> <a th:href="@{/endereco/alterar/{id}(id=${c.id})}" htype="button" class="btn btn-info btn-just-icon"> 
-                                                    <i class="material-icons">edit</i></a>
-                                                    </h3>
-                                                    <hr>
-                                                    <div class="valorProdutos">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <div class="form-group">
-                                                                    <label for="nomeDestInput">Nome do destinatário</label>
-                                                                    <span class="form-control" th:text="${c.nomeDestinatario}"></span>
+                                        <div th:each="c : ${enderecosCliente}" class="col-lg-6 col-md-6 col-sm-12">
+                                            <!--  
+                                            <table class="table">
+                                                    <thead>
+                                                            <tr>
+                                                                    <th class="text-center"><b>Id</b></th>
+                                                            </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                            <tr th:each="c : ${enderecosCliente}">
+                                                                    <td th:text="${c.id}" class="text-center"></td>
+                                                            </tr>
+                                                    </tbody>
+                                            </table>
+                                            -->
+                                            <div > 
+                                                <div class="card cardCarrinhoValor">                                 
+                                                    <div class="card-body">
+                                                        <h3><i class="fas fa-map-marker-alt"></i>Endereço <span th:text="${c.tipoEndereco}"></span> <a th:href="@{/endereco/alterar/{id}(id=${c.id})}" htype="button" class="btn btn-info btn-just-icon"> 
+                                                                <i class="material-icons">edit</i></a>
+                                                        </h3>
+                                                        <hr>
+                                                        <div class="valorProdutos">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <label for="nomeDestInput">Nome do destinatário</label>
+                                                                        <span class="form-control" th:text="${c.nomeDestinatario}"></span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-4">
-                                                                <div class="form-group">
-                                                                    <label for="cepInput">CEP</label>
-                                                                    <span class="form-control" th:text="${c.cep}"></span>
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <div class="form-group">
+                                                                        <label for="cepInput">CEP</label>
+                                                                        <span class="form-control" th:text="${c.cep}"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <div class="form-group">
+                                                                        <label for="enderecoInput">Logradouro</label>
+                                                                        <span class="form-control" th:text="${c.logradouro}"></span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-8">
-                                                                <div class="form-group">
-                                                                    <label for="enderecoInput">Logradouro</label>
-                                                                    <span class="form-control" th:text="${c.logradouro}"></span>
+                                                            <div class="row">
+                                                                <div class="col-3">
+                                                                    <div class="form-group">
+                                                                        <label for="numeroInput">Número</label>
+                                                                        <span class="form-control" th:text="${c.numero}"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-9">
+                                                                    <div class="form-group">
+                                                                        <label for="complementoInput">Complemento</label>
+                                                                        <span class="form-control" th:text="${c.complemento}"></span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-3">
-                                                                <div class="form-group">
-                                                                    <label for="numeroInput">Número</label>
-                                                                    <span class="form-control" th:text="${c.numero}"></span>
+                                                            <div class="row"> 
+                                                                <div class="col-8">
+                                                                    <div class="form-group">
+                                                                        <label for="bairroInput">Bairro</label>
+                                                                        <span class="form-control" th:text="${c.bairro}"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <div class="form-group">
+                                                                        <label for="TipoEndSelect">Tipo de endereço</label>
+                                                                        <span class="form-control" th:text="${c.tipoEndereco}"></span>       
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-9">
-                                                                <div class="form-group">
-                                                                    <label for="complementoInput">Complemento</label>
-                                                                    <span class="form-control" th:text="${c.complemento}"></span>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label for="EstadoSelect">Estado</label>
+                                                                        <span class="form-control" th:text="${c.estado}"></span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row"> 
-                                                            <div class="col-8">
-                                                                <div class="form-group">
-                                                                    <label for="bairroInput">Bairro</label>
-                                                                    <span class="form-control" th:text="${c.bairro}"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4">
-                                                                <div class="form-group">
-                                                                    <label for="TipoEndSelect">Tipo de endereço</label>
-                                                                    <span class="form-control" th:text="${c.tipoEndereco}"></span>       
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <div class="form-group">
-                                                                    <label for="EstadoSelect">Estado</label>
-                                                                    <span class="form-control" th:text="${c.estado}"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <div class="form-group">
-                                                                    <label for="CidadeSelect">Cidade</label>
-                                                                    <span class="form-control" th:text="${c.cidade}"></span>
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label for="CidadeSelect">Cidade</label>
+                                                                        <span class="form-control" th:text="${c.cidade}"></span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                              </div>
                                             </div>
                                         </div>
                                     </div>
