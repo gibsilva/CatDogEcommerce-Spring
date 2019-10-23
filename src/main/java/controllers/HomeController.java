@@ -22,6 +22,11 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/venda/select-endereco")
+    public String checkout() {
+        return "/venda/select-endereco";
+    }
+
     @GetMapping("/detalhes") //chamada na url
     public String detalhes() {
         return "detalhesProduto"; //aqui o nome da tela
@@ -31,7 +36,7 @@ public class HomeController {
     public String carrinho() {
         return "carrinho"; //aqui o nome da tela
     }
-    
+
     @GetMapping("/cliente/meuPerfil") //chamada na url
     public String meuPerfil() {
         return "/clientes/meuPerfil"; //aqui o nome da tela

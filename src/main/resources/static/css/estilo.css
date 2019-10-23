@@ -67,6 +67,10 @@ h3{
     width: 100%;
     text-align: center;
 }
+h2{
+     width: 100%;
+    text-align: center;
+}
 body{
     background-color: white !important;
 }
@@ -601,4 +605,25 @@ th{
 .cardLogin{
     margin: 10px !important  ;
     
+}
+.cardEnderecoCheckout{
+    margin: 10px;
+}
+.input-group-addon.beautiful input[type="checkbox"],
+.input-group-addon.beautiful input[type="radio"] {
+    display: none;
+}
+.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show>.btn-secondary.dropdown-toggle{
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+}
+.btn-radioEndereco{
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+    width: 600px !important;
+    justify-content: center;
+}
+btn-group{
+    margin: 10px;
 }
