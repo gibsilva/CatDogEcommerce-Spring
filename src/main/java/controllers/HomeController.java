@@ -27,9 +27,9 @@ public class HomeController {
         return "/venda/select-endereco";
     }
 
-    @GetMapping("/detalhes") //chamada na url
+    @GetMapping("/venda/resumo-venda") //chamada na url
     public String detalhes() {
-        return "detalhesProduto"; //aqui o nome da tela
+        return "/venda/resumo-venda"; //aqui o nome da tela
     }
 
     @GetMapping("/carrinho") //chamada na url
