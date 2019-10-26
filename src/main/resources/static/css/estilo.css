@@ -565,6 +565,7 @@ th{
 }
 .cardCarrinhoValor{
     margin-top:0;
+    min-height: 348px;
 }
 
 .card-header{
@@ -574,7 +575,7 @@ th{
 .btnContinuar{
     width: 100%;
     background-color: #28a745 !important;
-    border-radius: 10px;
+    border-radius: 3px;
     border: 0;
     color: white;
 }
@@ -626,4 +627,19 @@ th{
 }
 btn-group{
     margin: 10px;
+}
+.cardIcon{
+    font-size: 40px;
+    padding-top: 15px;
+}
+.formPagamentoLabel{
+    text-align: left !important;
+}
+.printerIcon{
+    text-align: center;
+    font-size: 40px !important;
+    padding-top: 15px;
+}
+.text-printer{
+    padding-top: 10px;
 }

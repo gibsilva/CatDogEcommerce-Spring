@@ -21,14 +21,22 @@ public class HomeController {
     public String home() {
         return "home";
     }
-
+     @GetMapping("/detalhes")
+    public String detalhes() {
+        return "/detalhesProduto";
+    }
+    @GetMapping("/venda/formaPagamento")
+    public String formaPagamento() {
+        return "/venda/forma-pagamento";
+    }
+        
     @GetMapping("/venda/select-endereco")
     public String checkout() {
         return "/venda/select-endereco";
     }
 
     @GetMapping("/venda/resumo-venda") //chamada na url
-    public String detalhes() {
+    public String resumoVenda() {
         return "/venda/resumo-venda"; //aqui o nome da tela
     }
 
