@@ -642,3 +642,29 @@ btn-group{
 .text-printer{
     padding-top: 10px;
 }
+.rowprinter{
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+.nav-pills .nav-item .nav-link.active{
+ background-color: #00aec5;
+ color: white;
+ box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(0, 0, 0, 0.6)
+}
+.footList{
+    list-style-type:none;
+}
+.footLi{
+    padding: 5px !important;
+    display: list-item;
+}
+.footLi a{
+    padding: 5px !important;
+}
+.fab{
+    font-size: 40px;
+}
+.footerStyle{
+    box-shadow: 0 5px 20px 20px rgba(0, 0, 0, 0.2), 0 13px 24px -11px rgba(0, 0, 0, 0.6);
+    margin-top: 100px;
+}
