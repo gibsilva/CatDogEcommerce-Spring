@@ -81,7 +81,7 @@ CREATE TABLE cliente (
   Sobrenome varchar(80) NOT NULL,
   Cpf varchar(11) NOT NULL,
   Email varchar(80) NOT NULL,
-  Senha varchar(16) NOT NULL,
+  Senha varchar(60) NOT NULL,
   DataNasc datetime NOT NULL,
   Telefone varchar(13) NOT NULL,
   Celular varchar(13) DEFAULT NULL,

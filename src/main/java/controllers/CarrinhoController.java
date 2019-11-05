@@ -149,7 +149,7 @@ public class CarrinhoController {
 	
 	@PostMapping("/finalizar")
 	public ModelAndView finalizarPedido(@RequestParam("txtFormaPagto") int formaPagamento, RedirectAttributes redirAttr) {
-		Pedido pedido = new Pedido(0, 1, LocalDateTime.now(), formaPagamento, 1, valorDesconto, cepEntrega);
+		Pedido pedido = new Pedido(0, 1, LocalDateTime.now(), formaPagamento, 1, valorDesconto, cepEntrega.replace("-", ""));
 		List<ItensPedido> itens = new ArrayList<ItensPedido>();
 		try {
 			pedidoRepositorio.save(pedido);
@@ -164,7 +164,7 @@ public class CarrinhoController {
 				itensPedidoRepositorio.save(i);
 			}
 			
-			return new ModelAndView("redirect:/pedido/pedido-finalizado?&idPedido=" + idPedido);
+			return new ModelAndView("redirect:/pedido?&idPedido=" + idPedido);
 		} catch(Exception e) {
 			redirAttr.addFlashAttribute("msg", "Ocorreu um erro ao salvar o pedido");
 			return new ModelAndView("redirect:/carrinho");
