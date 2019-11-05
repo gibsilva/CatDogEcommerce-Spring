@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import entidades.ItensPedido;
+import entidades.Pedido;
+import repositorios.IClienteRepositorio;
 import repositorios.IItensPedidoRepositorio;
 import repositorios.IPedidoRepositorio;
 import repositorios.IProdutoRepositorio;
@@ -22,13 +24,15 @@ public class PedidoController {
 	private final IPedidoRepositorio pedidoRepositorio;
 	private final IItensPedidoRepositorio itensPedidoRepositorio;
 	private final IProdutoRepositorio produtoRepositorio;
+	private final IClienteRepositorio clienteRepositorio;
 	
 	@Autowired
 	public PedidoController( IPedidoRepositorio pedidoRepositorio, IItensPedidoRepositorio itensPedidoRepositorio,
-			IProdutoRepositorio produtoRepositorio) {
+			IProdutoRepositorio produtoRepositorio, IClienteRepositorio clienteRepositorio) {
 		this.pedidoRepositorio = pedidoRepositorio;
 		this.itensPedidoRepositorio = itensPedidoRepositorio;
 		this.produtoRepositorio = produtoRepositorio;
+		this.clienteRepositorio = clienteRepositorio;
 	}
 	
 	@GetMapping
@@ -41,7 +45,13 @@ public class PedidoController {
 	@GetMapping("/lista")
 	public ModelAndView lista() {
 		ModelAndView view = new ModelAndView("pedido/lista-pedidos");
-		view.addObject("pedidos", pedidoRepositorio.findAll());
+		
+		List<Pedido> pedidos = pedidoRepositorio.findAll();
+		for(Pedido p : pedidos) {
+			p.setCliente(clienteRepositorio.obterPorId(p.getIdCliente()));
+		}
+		
+		view.addObject("pedidos", pedidos);
 		return view;
 	}
 	

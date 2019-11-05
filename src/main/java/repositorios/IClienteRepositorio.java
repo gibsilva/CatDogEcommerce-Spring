@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import entidades.Cliente;
+
 import java.util.List;
 
 @Repository
@@ -22,4 +23,7 @@ public interface IClienteRepositorio extends JpaRepository<Cliente, Integer> {
 	
 	@Query(value = "SELECT * FROM cliente WHERE senha = :senha and id = :id", nativeQuery = true)
 	public Cliente comparaSenha(@Param("senha")String senha, @Param("id")Integer id);
+	
+    @Query(value = "select * from cliente where id = :id", nativeQuery = true)
+    public Cliente obterPorId(@Param("id")Integer id);
 }
