@@ -123,3 +123,33 @@ CREATE TABLE usuario (
   UNIQUE KEY Email (Email)
 );
 
+
+CREATE TABLE `pedido` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Status` int(11) NOT NULL,
+  `Data` datetime NOT NULL,
+  `IdCliente` int(11) NOT NULL,
+  `Parcela` int(11) DEFAULT NULL,
+  `FormaPagamento` int(11) NOT NULL,
+  `Desconto` decimal(18,2) DEFAULT NULL,
+  `CepEntrega` varchar(8) DEFAULT NULL,
+  `DataHoraCriacao` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`),
+  KEY `IdCliente` (`IdCliente`),
+  CONSTRAINT `fk_pedido_cliente` FOREIGN KEY (`IdCliente`) REFERENCES `cliente` (`Id`)
+);
+
+
+create table ItensPedido(
+`Id` int(11) NOT NULL AUTO_INCREMENT,
+`IdProduto` int(11) NOT NULL,
+`ValorUnitario` decimal(18,2) DEFAULT NULL,
+`Quantidade` int(11) NOT NULL,
+`IdPedido` int(11) NOT NULL,
+`DataHoraCriacao` datetime DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (`Id`),
+  KEY `IdProduto` (`IdProduto`),
+  KEY `IdPedido` (`IdPedido`),
+  CONSTRAINT `fk_itensPedido_pedido` FOREIGN KEY (`IdPedido`) REFERENCES `pedido` (`Id`),
+  CONSTRAINT `fk_itensPedido_produto` FOREIGN KEY (`IdProduto`) REFERENCES `produto` (`Id`)
+);

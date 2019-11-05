@@ -14,13 +14,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -62,7 +59,7 @@ public class Cliente implements Serializable {
         this.sexo = sexo;
         this.ativo = ativo;
     }
-    
+
     public Cliente(int id, String nome, String sobrenome, String cpf, String email,
             LocalDate dataNasc, String telefone, String celular, String sexo, Boolean ativo) {
 
@@ -85,7 +82,7 @@ public class Cliente implements Serializable {
     @Column(name = "nome")
     @NotBlank(message = "Campo Nome é obrigatório")
     private String nome;
-    
+
     @Column(name = "sobrenome")
     @NotBlank(message = "Sobrenome é obrigatório")
     private String sobrenome;
@@ -124,9 +121,12 @@ public class Cliente implements Serializable {
 
     @Column(name = "ativo")
     private Boolean ativo;
-    
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
     private List<Endereco> enderecos;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
+    private List<Pedido> pedidos;
 
     public Integer getId() {
         return id;
@@ -143,7 +143,7 @@ public class Cliente implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     public String getSobrenome() {
         return sobrenome;
     }
@@ -223,7 +223,7 @@ public class Cliente implements Serializable {
     public void setEnderecos(List<Endereco> enderecos) {
         this.enderecos = enderecos;
     }
-    
+
     public final void setSenhaEncriptada(String senha) {
         this.senha = BCrypt.hashpw(senha, BCrypt.gensalt(12));
     }

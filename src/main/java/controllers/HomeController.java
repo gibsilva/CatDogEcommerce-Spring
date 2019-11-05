@@ -5,9 +5,16 @@
  */
 package controllers;
 
+import entidades.Produto;
+import java.io.File;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import repositorios.IImagemRepositorio;
+import repositorios.IProdutoRepositorio;
 
 /**
  *
@@ -17,14 +24,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HomeController {
 
+    private final IProdutoRepositorio produtoRepositorio;
+    private final IImagemRepositorio imagemRepositorio;
+    
+    @Autowired
+    public HomeController(IProdutoRepositorio produtoRepositorio, IImagemRepositorio imagemRepositorio){
+        this.produtoRepositorio = produtoRepositorio;
+        this.imagemRepositorio = imagemRepositorio;
+    }
+    
     @GetMapping("/")
-    public String home() {
-        return "home";
+    public ModelAndView home() {
+        ModelAndView view = new ModelAndView("home");
+        List<Produto> produtos = produtoRepositorio.findAll();
+        view.addObject("produtos", produtos);
+        return view;
     }
-     @GetMapping("/detalhes")
-    public String detalhes() {
-        return "/detalhesProduto";
-    }
+    
     @GetMapping("/venda/formaPagamento")
     public String formaPagamento() {
         return "/venda/forma-pagamento";
@@ -38,11 +54,6 @@ public class HomeController {
     @GetMapping("/venda/resumo-venda") //chamada na url
     public String resumoVenda() {
         return "/venda/resumo-venda"; //aqui o nome da tela
-    }
-
-    @GetMapping("/carrinho") //chamada na url
-    public String carrinho() {
-        return "carrinho"; //aqui o nome da tela
     }
 
     @GetMapping("/cliente/meuPerfil") //chamada na url
