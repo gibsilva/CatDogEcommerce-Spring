@@ -18,6 +18,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 /**
  *
  * @author Gi
@@ -45,6 +48,7 @@ public class ItensPedido implements Serializable {
     private Integer idProduto;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "id", insertable = false, updatable = false)
     private Produto produto;
 
@@ -62,6 +66,7 @@ public class ItensPedido implements Serializable {
     private Integer idPedido;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "id", insertable = false, updatable = false)
     private Pedido pedido;
 

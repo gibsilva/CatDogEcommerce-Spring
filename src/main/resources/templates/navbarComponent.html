@@ -116,7 +116,7 @@
                                 <button type="button" class="btn btn-round btn-carrinho ">
                                     <a href="/carrinho">
                                         <label>Carrinho</label>
-                                        <i class="fas fa-shopping-cart carrinhoIcone"></i>
+                                        <i class="fas fa-shopping-cart carrinhoIcone"> <span th:text="${#lists.size(@carrinhoController.itensSelecionados)}"></span></i>
                                     </a>
                                 </button>
                             </form>

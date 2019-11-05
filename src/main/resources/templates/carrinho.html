@@ -5,7 +5,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Carrinho</title>
     <script type="text/javascript">
+    function selEndereco(end){
+    	$('#txtCep').val(end);
+    }
+    
     $(document).ready(function(){
+    	$('#divParcelas').hide();
+    	
     	//configurações do toastr
     	toastr.options.closeButton = true;
     	toastr.options.showMethod = 'slideDown';
@@ -13,12 +19,31 @@
     	toastr.options.closeDuration = 300;
     	toastr.options.closeEasing = 'swing';
     	
+    	$('#formaPagamento').change(function(){
+    		if($('#formaPagamento').val() == 1){
+    			$('#divParcelas').show();
+    		} else{
+    			$('#qtdParcelas').val('');
+    			$('#divParcelas').hide();
+    		}
+    	});
+    	
         $('#finalizarPedido').submit(function (e) {
         	
         	var lista = [[${#lists.isEmpty(@carrinhoController.itensSelecionados)}]];
         	
         	if(lista){
         		toastr.warning('Inclua itens no carrinho antes de finalizar o pedido');
+        		e.preventDefault(e);
+        	}
+        	
+        	if($('#txtCep').val() === ""){
+        		toastr.warning('Selecione o endereço de entrega');
+        		e.preventDefault(e);        		
+        	}
+        	
+        	if($('#formaPagamento').val() == 1 && $('#qtdParcelas').val() == ""){
+        		toastr.warning('Selecione a quantidade de parcelas');
         		e.preventDefault(e);
         	}
         	
@@ -101,16 +126,14 @@
 								<div class="card-body">
 									<form data-th-action="@{/carrinho/frete}" method="post" >
 										<div class="form-group row">
-											<label for="txtCep"
-												class="col-sm-2 col-form-label col-form-label-sm">CEP</label>
+											<label for="txtCep" class="col-sm-4">Endereço de entrega</label>
 											<div class="col-sm-8">
-												<input type="text" name="cep"
-													class="form-control form-control-sm" id="txtCep"
-													placeholder="Formato 00000-000">
+											<div data-th-if="${@carrinhoController.cepEntrega}">
+												<input data-th-value="${@carrinhoController.cepEntrega}" type="text" name="cep"class="form-control form-control-sm" id="txtCep" placeholder="CEP" readonly>
+											</div>
 											</div>
 											<div class="col-sm-2">
-												<button type="submit" class="btn btn-sm btn-primary">Calcular
-													frete</button>
+												<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-sm btn-primary">Selecionar</button>
 											</div>
 										</div>
 									</form>
@@ -131,7 +154,7 @@
 										</div>
 									</form>
 										<div class="form-group row">
-											<label for="txtCupom"lass="col-sm-4 col-form-label col-form-label-sm">Forma de Pagamento</label>
+											<label for="txtCupom" class="col-sm-4 col-form-label col-form-label-sm">Forma de Pagamento</label>
 											<div class="col-sm-10">
 												<select class="form-control" id="formaPagamento" name="formaPagamento" required>
 													<option selected value="">Selecione</option>
@@ -139,6 +162,18 @@
 													<option value="2">PayPal</option>
 													<option value="3">Boleto</option>
 													<option value="4">PagSeguro</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group row" id="divParcelas">
+											<label for="txtCupom" class="col-sm-3 col-form-label col-form-label-sm">Nº de Parcelas</label>
+											<div class="col-sm-10">
+												<select class="form-control" id="qtdParcelas" name="qtdParcelas" required>
+													<option selected value="">Selecione</option>
+													<option value="1">1x de <span data-th-text="${#numbers.formatCurrency(@carrinhoController.valorFinal/1)}"></span></option>
+													<option value="2">2x de <span data-th-text="${#numbers.formatCurrency(@carrinhoController.valorFinal/2)}"></option>
+													<option value="3">3x de <span data-th-text="${#numbers.formatCurrency(@carrinhoController.valorFinal/3)}"></option>
+													<option value="4">4x de <span data-th-text="${#numbers.formatCurrency(@carrinhoController.valorFinal/4)}"></option>
 												</select>
 											</div>
 										</div>
@@ -200,6 +235,55 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLongTitle">Selecione o endereço de entrega</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<form data-th-action="@{/carrinho/frete}" method="post" >
+				      <div class="description">
+		                <h4 class="info-title">Principal</h4>
+		                <p>Av. das Nações Unidas, 12901<br>
+		                  São Paulo - SP, 04578-910
+		                </p>
+		                <input type="hidden" value="04578-910" name="cep">
+		                <button type="submit" class="btn btn-sm btn-primary">Selecionar</button>
+		              </div>
+	              </form>
+	              <form data-th-action="@{/carrinho/frete}" method="post" >
+	              <div class="description">
+	                <h4 class="info-title">Casa</h4>
+	                <p>R. Café Natal, 33 - Vila Natal<br>
+	                  São Paulo - SP, 04863-450
+	                </p>
+		             <input type="hidden" value="04863-450" name="cep">
+		             <button type="submit" class="btn btn-sm btn-primary">Selecionar</button>
+	              </div>
+	              </form>
+	              <form data-th-action="@{/carrinho/frete}" method="post" >
+	               <div class="description">
+		                <h4 class="info-title">Comercial</h4>
+		                <p>Av. Dr. Chucri Zaidan, 1550 - Vila Cordeiro<br>
+		                  São Paulo - SP, 04583-110
+		                </p>
+		                <input type="hidden" value="04583-110" name="cep">
+		                <button type="submit" class="btn btn-sm btn-primary">Selecionar</button>
+	              </div>
+	              </form>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+		      </div>
+		    </div>
+		  </div>
+		 </div>
 		</div>
 	</section>
 	</main>

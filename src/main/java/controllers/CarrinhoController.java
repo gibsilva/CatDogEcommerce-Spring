@@ -122,14 +122,14 @@ public class CarrinhoController {
 	
 	@PostMapping("/frete")
 	public ModelAndView calcularFrete(@RequestParam("cep") String cep) {
-		if ("00000-000".equals(cep)) {
+		if ("04863-450".equals(cep)) {
 			valorFrete = 30;
-		} else if ("11111-111".equals(cep)) {
+		} else if ("04578-910".equals(cep)) {
 			valorFrete = 20;
 		} else if ("22222-222".equals(cep)) {
 			valorFrete = 50;
-		} else if ("04696-000".equals(cep)) {
-			valorFrete = 0;
+		} else if ("04583-110".equals(cep)) {
+			valorFrete = 10;
 		} else {
 			valorFrete = 25;
 		}
@@ -149,7 +149,7 @@ public class CarrinhoController {
 	
 	@PostMapping("/finalizar")
 	public ModelAndView finalizarPedido(@RequestParam("txtFormaPagto") int formaPagamento, RedirectAttributes redirAttr) {
-		Pedido pedido = new Pedido(0, 1, LocalDateTime.now(), formaPagamento, 1, valorDesconto, cepEntrega.replace("-", ""));
+		Pedido pedido = new Pedido(0, 1, LocalDateTime.now(), formaPagamento, 1, valorDesconto, cepEntrega.replace("-", ""), this.getValorFrete());
 		List<ItensPedido> itens = new ArrayList<ItensPedido>();
 		try {
 			pedidoRepositorio.save(pedido);

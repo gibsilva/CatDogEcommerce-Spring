@@ -8,6 +8,7 @@ package entidades;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,9 +17,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import utils.FormaPagamento;
+import utils.StatusPedido;
 
 /**
  *
@@ -31,7 +39,7 @@ public class Pedido implements Serializable {
 	public Pedido() { };
 	
     public Pedido(Integer id, int status, LocalDateTime data, int formaPagamento, int idCliente, double desconto,
-			String cepEntrega) {
+			String cepEntrega, double frete) {
 		this.id = id;
 		this.status = status;
 		this.data = data;
@@ -39,6 +47,7 @@ public class Pedido implements Serializable {
 		this.idCliente = idCliente;
 		this.desconto = desconto;
 		this.cepEntrega = cepEntrega;
+		this.frete = frete;
 	}
 
 	@Id
@@ -64,16 +73,39 @@ public class Pedido implements Serializable {
     private int idCliente;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "id", insertable = false, updatable = false)
     private Cliente cliente;
 
 	@Column(name = "desconto")
     private double desconto;
+	
+	@Column(name = "frete")
+    private double frete;
     
     @Column(name = "cepentrega")
     private String cepEntrega;
+    
+    @OneToMany(mappedBy="pedido")
+    List<ItensPedido> itensPedido;
 
-    /**
+    public double getFrete() {
+		return frete;
+	}
+
+	public void setFrete(double frete) {
+		this.frete = frete;
+	}
+
+	public List<ItensPedido> getItensPedido() {
+		return itensPedido;
+	}
+
+	public void setItensPedido(List<ItensPedido> itensPedido) {
+		this.itensPedido = itensPedido;
+	}
+
+	/**
      * @return the id
      */
     public Integer getId() {
@@ -185,5 +217,29 @@ public class Pedido implements Serializable {
 
 	public void setCepEntrega(String cepEntrega) {
 		this.cepEntrega = cepEntrega;
+	}
+	
+	public double getValorTotal() {
+		double total = 0;
+		for(ItensPedido i : this.getItensPedido()) {
+			total += i.getValorUnitario() * i.getQuantidade();
+		}
+		return (total + frete) - desconto;
+	}
+	
+	public double getSubTotal() {
+		double total = 0;
+		for(ItensPedido i : this.getItensPedido()) {
+			total += i.getValorUnitario() * i.getQuantidade();
+		}
+		return total;
+	}
+	
+	public String getFormaPagamentoExtenso() {
+		return FormaPagamento.formaPagamento(formaPagamento);
+	}
+	
+	public String getStatusExtenso() {
+		return StatusPedido.statusPedido(status);
 	}
 }

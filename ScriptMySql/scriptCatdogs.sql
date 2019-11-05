@@ -132,6 +132,7 @@ CREATE TABLE `pedido` (
   `Parcela` int(11) DEFAULT NULL,
   `FormaPagamento` int(11) NOT NULL,
   `Desconto` decimal(18,2) DEFAULT NULL,
+  `Frete` decimal(18,2) DEFAULT NULL,
   `CepEntrega` varchar(8) DEFAULT NULL,
   `DataHoraCriacao` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
