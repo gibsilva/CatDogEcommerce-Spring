@@ -58,7 +58,9 @@ public class PedidoController {
 	@GetMapping("/resumo/{id}")
 	public ModelAndView resumo(@PathVariable("id") int id) {
 		ModelAndView view = new ModelAndView("pedido/resumo");
-		view.addObject("pedido", pedidoRepositorio.obterPorId(id));
+                Pedido pedido = pedidoRepositorio.obterPorId(id);
+                pedido.setItensPedido(itensPedidoRepositorio.obterPorIdPedido(id));
+		view.addObject("pedido", pedido);
 		
 		List<ItensPedido> itens = itensPedidoRepositorio.obterPorIdPedido(id);
 		for(ItensPedido i : itens) {
