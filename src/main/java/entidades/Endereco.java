@@ -19,6 +19,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 /**
  *
  * @author Girlaine
@@ -66,6 +69,7 @@ public class Endereco implements Serializable {
     private Integer idCliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "id", insertable = false, updatable = false)
     private Cliente cliente;
 

@@ -124,6 +124,9 @@ public class Cliente implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
     private List<Endereco> enderecos;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
+    private List<CartaoCredito> cartoes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
     private List<Pedido> pedidos;

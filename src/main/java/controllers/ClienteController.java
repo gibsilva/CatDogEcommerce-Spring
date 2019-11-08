@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import entidades.Cliente;
+import entidades.Pedido;
 
 import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import repositorios.ICartaoCreditoRepositorio;
 import repositorios.IClienteRepositorio;
 import repositorios.IEnderecoRepositorio;
+import repositorios.IPedidoRepositorio;
 
 @Controller
 @RequestMapping("/cliente")
@@ -27,11 +31,16 @@ public class ClienteController {
 
 	private final IClienteRepositorio repositorio;
 	private final IEnderecoRepositorio enderecoRepositorio;
+	private final ICartaoCreditoRepositorio cartaoRepositorio;
+	private final IPedidoRepositorio pedidoRepositorio;
 
 	@Autowired
-	public ClienteController(IClienteRepositorio repositorio, IEnderecoRepositorio enderecoRepositorio) {
+	public ClienteController(IClienteRepositorio repositorio, IEnderecoRepositorio enderecoRepositorio,
+			ICartaoCreditoRepositorio cartaoRepositorio, IPedidoRepositorio pedidoRepositorio) {
 		this.repositorio = repositorio;
 		this.enderecoRepositorio = enderecoRepositorio;
+		this.cartaoRepositorio = cartaoRepositorio;
+		this.pedidoRepositorio = pedidoRepositorio;
 	}
 
 	@GetMapping("/lista")
@@ -104,6 +113,14 @@ public class ClienteController {
 		ModelAndView view = new ModelAndView("clientes/meuPerfil");
 		view.addObject("cliente", repositorio.findById(id));
 		view.addObject("enderecosCliente", enderecoRepositorio.findByIdCliente(id));
+		view.addObject("cartoesCliente", cartaoRepositorio.findByIdCliente(id));
+		
+		List<Pedido> pedidos = pedidoRepositorio.obterPorIdCliente(id);
+		for(Pedido p : pedidos) {
+			p.setCliente(repositorio.obterPorId(p.getIdCliente()));
+		}
+		
+		view.addObject("pedidos", pedidos);
 		return view;
 	}
 

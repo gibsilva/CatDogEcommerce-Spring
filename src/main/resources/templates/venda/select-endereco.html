@@ -10,102 +10,10 @@
             <section class="">
                 <div class="container">
                     <div class="formCadastroCliente ">
-                        <h3>Selecione o Endereço</h3>
+                        <h3 class="title">Selecione o Endereço</h3>
                         <div class=" w-100 row btn-group btn-group-toggle" data-toggle="buttons" btn-selectEndereco >
-                            <label class=" w-60 col-md-6 col-12 btn btn-secondary btn-lg active btn-radioEndereco">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked>
-                                <div class="col-12">
-                                    <h3>
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        Endereço Principal
-                                    </h3>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="nomeDestInput">Nome do destinatário</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="enderecoInput">Logradouro</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4 col-4">
-                                            <div class="form-group">
-                                                <label for="numeroInput">Número</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-4">
-                                            <div class="form-group">
-                                                <label for="EstadoSelect">Estado</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-4">
-                                            <div class="form-group">
-                                                <label for="CidadeSelect">Cidade</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </label>
-                            <label class=" w-60 col-md-6 col-12 btn btn-secondary btn-lg  btn-radioEndereco">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked>
-                                <div class="col-12">
-                                    <h3>
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        Endereço Principal
-                                    </h3>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="nomeDestInput">Nome do destinatário</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="enderecoInput">Logradouro</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4 col-4">
-                                            <div class="form-group">
-                                                <label for="numeroInput">Número</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-4">
-                                            <div class="form-group">
-                                                <label for="EstadoSelect">Estado</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-4">
-                                            <div class="form-group">
-                                                <label for="CidadeSelect">Cidade</label>
-                                                <span class="form-control" ></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </label>
-                            <label class=" w-60 col-md-6 col-12 btn btn-secondary btn-lg  btn-radioEndereco">
-                                <input type="radio" name="options" id="option1" autocomplete="off" checked>
+                            <label data-th-each="sel : ${session.usuarioLogado.enderecos}" class=" w-60 col-md-6 col-12 btn btn-secondary btn-lg btn-radioEndereco">
+                                <input type="radio" name="options" id="option1" autocomplete="off">
                                 <div class="col-12">
                                     <h3>
                                         <i class="fas fa-map-marker-alt"></i>

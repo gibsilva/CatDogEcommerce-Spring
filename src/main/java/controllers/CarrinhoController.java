@@ -5,6 +5,9 @@
  */
 package controllers;
 
+import entidades.CartaoCredito;
+import entidades.Cliente;
+import entidades.Endereco;
 import entidades.ItensPedido;
 import entidades.Pedido;
 import entidades.Produto;
@@ -13,6 +16,8 @@ import entidades.ProdutoSelecionado;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -25,14 +30,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import repositorios.IClienteRepositorio;
+import repositorios.IEnderecoRepositorio;
 import repositorios.IItensPedidoRepositorio;
 import repositorios.IPedidoRepositorio;
 import repositorios.IProdutoRepositorio;
+import utils.FormaPagamento;
 
-/**
- *
- * @author Gi
- */
 @Controller
 @Scope("session")
 @RequestMapping("/carrinho")
@@ -41,18 +45,25 @@ public class CarrinhoController {
     private final IProdutoRepositorio produtoRepositorio;
     private final IItensPedidoRepositorio itensPedidoRepositorio;
     private final IPedidoRepositorio pedidoRepositorio;
+    private final IEnderecoRepositorio enderecoRepositorio;
     
     private List<ProdutoSelecionado> produtosSelecionados = new ArrayList<>();
 	private int valorFrete = 0;
 	private int valorDesconto = 0;
-	private String cepEntrega = "";
+	private Endereco endereco = null;
+	private String cepEntrega = "0";
+	private CartaoCredito cartao = new CartaoCredito();
+	private int idUsuario = 0;
+	private int formaPagamento = 0;
+	private int parcela = 0;
 
     @Autowired
     public CarrinhoController(IProdutoRepositorio produtoRepositorio, IItensPedidoRepositorio itensPedidoRepositorio,
-    		IPedidoRepositorio pedidoRepositorio) {
+    		IPedidoRepositorio pedidoRepositorio, IEnderecoRepositorio enderecoRepositorio) {
         this.produtoRepositorio = produtoRepositorio;
         this.itensPedidoRepositorio = itensPedidoRepositorio;
         this.pedidoRepositorio = pedidoRepositorio;
+        this.enderecoRepositorio = enderecoRepositorio;
     }
 
     @GetMapping
@@ -121,7 +132,7 @@ public class CarrinhoController {
 	}
 	
 	@PostMapping("/frete")
-	public ModelAndView calcularFrete(@RequestParam("cep") String cep) {
+	public ModelAndView calcularFrete(@RequestParam("cep") String cep, HttpSession session) {
 		if ("04863-450".equals(cep)) {
 			valorFrete = 30;
 		} else if ("04578-910".equals(cep)) {
@@ -134,22 +145,74 @@ public class CarrinhoController {
 			valorFrete = 25;
 		}
 		
-		setCepEntrega(cep);
-		
 		return new ModelAndView("redirect:/carrinho");
 	}
 	
 	@PostMapping("/cupom")
-	public ModelAndView adicionarCupom(@RequestParam("cupom") String cupom) {
+	public ModelAndView adicionarCupom(@RequestParam("cupom") String cupom, RedirectAttributes redirAttr) {
 		if ("CATDOG20OFF".equals(cupom)) {
 			valorDesconto = 20;
+		} else {
+			redirAttr.addFlashAttribute("msg", "Cupom inválido, verifique o código digitado");
 		}
-		return new ModelAndView("redirect:/carrinho");
+		return new ModelAndView("redirect:/carrinho/resumo-pedido");
+	}
+	
+	@GetMapping("/resumo-pedido")
+	public ModelAndView resumo(HttpSession session, RedirectAttributes redirAttr) {
+		ModelAndView view = new ModelAndView("venda/resumo-venda");
+		Cliente cliente = (Cliente) session.getAttribute("usuarioLogado");
+		if(cliente != null) {
+			cliente.setEnderecos(enderecoRepositorio.findByIdCliente(cliente.getId()));
+			view.addObject("enderecos", cliente.getEnderecos());
+			return view;
+		} else {
+			return new ModelAndView("redirect:/login");
+		}
+	}
+	
+	@PostMapping("/seleciona-endereco")
+	public ModelAndView selecionaEndereco(@RequestParam("cep") String cep, HttpSession session) {
+		ModelAndView view = new ModelAndView("venda/resumo-venda");
+		Cliente cliente = (Cliente) session.getAttribute("usuarioLogado");
+		if(cliente != null) {
+			this.endereco = enderecoRepositorio.findByCepIdCliente(cliente.getId(), cep.replace("-", ""));
+			cepEntrega = endereco.getCep();
+			valorFrete = 10;
+			return new ModelAndView("redirect:/carrinho/resumo-pedido");
+		}
+		return view;
+	}
+	
+	@GetMapping("/forma-pagamento")
+	public ModelAndView mostraFormaPagamento(CartaoCredito cartao) {
+		return new ModelAndView("venda/forma-pagamento");
+	}
+	
+	@PostMapping("/forma-pagamento")
+	public ModelAndView selecionaFormaPagamento(HttpSession session, @RequestParam("cartao") String cartao, 
+			@RequestParam("boleto") String boleto, @RequestParam("parcela") int parcela) {
+		if(boleto.equals("")) {
+			this.formaPagamento = 1;
+			this.cartao.setNumero(cartao);
+			this.setParcela(parcela);
+		} else {
+			this.formaPagamento = 3;
+			this.setParcela(0);
+		}
+		return new ModelAndView("redirect:/carrinho/resumo-pedido");
 	}
 	
 	@PostMapping("/finalizar")
-	public ModelAndView finalizarPedido(@RequestParam("txtFormaPagto") int formaPagamento, RedirectAttributes redirAttr) {
-		Pedido pedido = new Pedido(0, 1, LocalDateTime.now(), formaPagamento, 1, valorDesconto, cepEntrega.replace("-", ""), this.getValorFrete());
+	public ModelAndView finalizarPedido(RedirectAttributes redirAttr, HttpSession session) {
+		Cliente clienteLogado = (Cliente) session.getAttribute("usuarioLogado");
+		if(clienteLogado == null) {
+			redirAttr.addFlashAttribute("msg", "Por favor faça o login antes de finalizar o pedido");
+			return new ModelAndView("redirect:/login");
+		}
+		
+		Pedido pedido = new Pedido(0, 1, LocalDateTime.now(), formaPagamento, 1, valorDesconto, endereco.getCep(), this.getValorFrete());
+		pedido.setParcela(parcela);
 		List<ItensPedido> itens = new ArrayList<ItensPedido>();
 		try {
 			pedidoRepositorio.save(pedido);
@@ -168,7 +231,18 @@ public class CarrinhoController {
 		} catch(Exception e) {
 			redirAttr.addFlashAttribute("msg", "Ocorreu um erro ao salvar o pedido");
 			return new ModelAndView("redirect:/carrinho");
-		}	
+		}
+		finally {
+			session.setAttribute("carrinhoController", null);
+		}
+	}
+	
+	public int getFormaPagamento() {
+		return this.formaPagamento;
+	}
+	
+	public void setFormaPagamento(int formaPagamento) {
+		this.formaPagamento = formaPagamento;
 	}
 	
 	public List<ProdutoSelecionado> getItensSelecionados() {
@@ -199,12 +273,20 @@ public class CarrinhoController {
 		return produtosSelecionados.size();
 	}
 	
-	public String getCepEntrega() {
-		return this.cepEntrega;
+	public Endereco getEndereco() {
+		return this.endereco;
 	}
 	
-	public void setCepEntrega(String cepEntrega) {
-		this.cepEntrega = cepEntrega;
+	public void setCepEntrega(Endereco endereco) {
+		this.endereco = endereco;
+	}
+	
+	public int getIdUsuario() {
+		return this.idUsuario;
+	}
+	
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 	
 	public double getValorTotal() {
@@ -221,4 +303,25 @@ public class CarrinhoController {
 		valor -= valorDesconto;
 		return valor;
 	}
+	
+	public String getFormaPagamentoExtenso() {
+		return FormaPagamento.formaPagamento(formaPagamento);
+	}
+
+	public int getParcela() {
+		return parcela;
+	}
+
+	public void setParcela(int parcela) {
+		this.parcela = parcela;
+	}
+
+	public String getCepEntrega() {
+		return cepEntrega;
+	}
+
+	public void setCepEntrega(String cepEntrega) {
+		this.cepEntrega = cepEntrega;
+	}
+	
 }

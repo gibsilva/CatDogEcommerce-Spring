@@ -44,6 +44,8 @@ public class LoginController {
     public ModelAndView efetuaLogin(@ModelAttribute("cliente") @Valid Login cliente, 
     		HttpSession session, BindingResult bindingResult) {
     	
+    	CarrinhoController carrinho = (CarrinhoController) session.getAttribute("carrinhoController");
+    	
     	if(cliente.getEmail().isEmpty())
     		bindingResult.reject("email", "O e-mail é obrigatório");
     	
@@ -63,6 +65,10 @@ public class LoginController {
         ModelAndView view;
         if(clienteLogado != null){
             session.setAttribute("usuarioLogado", clienteLogado);
+            if(carrinho != null && carrinho.getItensSelecionados().size() != 0) {
+            	view = new ModelAndView("redirect:/carrinho");
+            	return view;
+            }         	
             view = new ModelAndView("redirect:/");
             view.addObject("usuarioLogado", clienteLogado);
             return view;

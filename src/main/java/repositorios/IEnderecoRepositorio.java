@@ -11,4 +11,7 @@ import entidades.Endereco;
 public interface IEnderecoRepositorio extends JpaRepository<Endereco, Integer> {
 	@Query(value = "select * from endereco where idcliente = :idcliente", nativeQuery = true)
 	List<Endereco> findByIdCliente(@Param("idcliente")Integer idcliente);
+	
+	@Query(value = "select * from endereco where idcliente = :idcliente and cep = :cep", nativeQuery = true)
+	Endereco findByCepIdCliente(@Param("idcliente")Integer idcliente, @Param("cep") String cep);
 }

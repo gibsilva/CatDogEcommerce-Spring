@@ -36,8 +36,8 @@
 
             <br>
 
-            <section th:each="p : ${produtos}" class="d-flex flex-wrap justify-content-center">
-                <div class="item">
+            <section class="d-flex flex-wrap justify-content-center">
+                <div th:each="p : ${produtos}" class="item">
                     <a th:href="@{/carrinho/detalhes/{id}(id=${p.id})}">
                         <div class="card cardHome cardList">
                             <div class="box-image">

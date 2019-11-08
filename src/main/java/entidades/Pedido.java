@@ -86,6 +86,9 @@ public class Pedido implements Serializable {
     @Column(name = "cepentrega")
     private String cepEntrega;
     
+    @Column(name = "numerocartao")
+    private String numeroCartao;
+    
     @OneToMany(mappedBy="pedido")
     List<ItensPedido> itensPedido;
 
@@ -242,4 +245,13 @@ public class Pedido implements Serializable {
 	public String getStatusExtenso() {
 		return StatusPedido.statusPedido(status);
 	}
+
+	public String getNumeroCartao() {
+		return numeroCartao;
+	}
+
+	public void setNumeroCartao(String numeroCartao) {
+		this.numeroCartao = numeroCartao;
+	}
+		
 }

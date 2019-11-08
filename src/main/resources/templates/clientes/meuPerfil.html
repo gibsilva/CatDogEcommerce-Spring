@@ -41,7 +41,37 @@
                         </div><div class="card-body ">
                             <div class="tab-content text-center">
                                 <div class="tab-pane text-center active" id="request">
-                                    <h3>Meus pedidos</h3>
+                                    			<div class="card-body">
+												<h3>Lista de pedidos</h3>
+													<div class="table-responsive">
+														<table class="table">
+															<thead>
+																<tr>
+																	<th class="text-center"><b>ID</b></th>
+																	<th class="text-center"><b>Data/Hora</b></th>
+																	<th class="text-center"><b>Valor do Pedido</b></th>
+																	<th class="text-center"><b>Forma de Pagamento</b></th>
+																	<th class="text-center"><b>Cliente</b></th>
+																	<th class="text-center"><b>Status</b></th>
+																	<th class="text-center"><b>#</b></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:each="p : ${pedidos}">
+																	<td th:text="${p.id}" class="text-center"></td>
+																	<td data-th-text="${#temporals.format(p.data, 'dd/MM/yyyy HH:mm')}" class="text-center"></td>
+																	<td data-th-text="${#numbers.formatCurrency(p.getValorTotal())}" class="text-center"></td>
+																	<td th:text="${p.getFormaPagamentoExtenso()}" class="text-center"></td>
+																	<td th:text="${p.cliente.nome}" class="text-center"></td>
+																	<td th:text="${p.getStatusExtenso()}" class="text-center"></td>
+																	<td><a th:href="@{/pedido/resumo/{id}(id=${p.id})}" class="btn btn-sm btn-link btn-primary"
+																	     data-toggle="tooltip" data-placement="left"
+									                                     title="Detalhes do Pedido"><i class="fas fa-info-circle"></i></a></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
                                 </div>
                                 <div class="tab-pane" id="profile">
                                     <form th:object="${cliente}" th:action="@{/cliente/alterar}" method="POST">
@@ -341,9 +371,9 @@
                                     <h3>Cartões</h3>
                                     <div class="row">
                                         <div class="col-sm-2 offset-sm-7 col-lg-2 offset-lg-10 text-center">
-                                            <button type="button" class="btn btn-round btn-add-endereco" data-toggle="modal" data-target="#modalCardNovo">
+                                            <a th:href="@{/cartao/salvar/{id}(id=${session.usuarioLogado.id})}" class="btn btn-round btn-add-endereco">
                                                 <i class="material-icons">add</i>Adicionar
-                                            </button>
+                                            </a>
                                         </div>
                                         <!-- Modal -->
                                         <div class="modal fade" id="modalCardNovo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -356,6 +386,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
+                                                    <form>
                                                         <div class="row">
                                                             <div class="col-lg-6 col-sm-12">
                                                                 <div class="form-group">
@@ -393,23 +424,24 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6">
+                                        <div th:each="c : ${cartoesCliente}" class="col-12 col-md-6">
                                             <div class="card cardCarrinhoValor">
                                                 <div class="card-body">
-                                                    <h3><i class="material-icons">credit_card</i> Cartão principal</h3>
+                                                    <h3><i class="material-icons">credit_card</i> Cartão <a th:href="@{/cartao/alterar/{id}(id=${c.id})}" htype="button" class="btn btn-info btn-just-icon"> 
+                                                                <i class="material-icons">edit</i></a></h3>
                                                     <hr>
                                                     <div class="valorProdutos">
                                                         <div class="row">
                                                             <div class="col-lg-6 col-sm-12">
                                                                 <div class="form-group">
                                                                     <label for="nomeCartaoInput">Nome</label>
-                                                                    <input  type="text" class="form-control" id="nomeCartao" name="cliente" placeholder="Titular do cartão"  readonly>
+                                                                    <span th:text="${c.nome}"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6 col-sm-12"> 
                                                                 <div class="form-group">
                                                                     <label for="numeroCartaoInput">Nº do cartão</label>
-                                                                    <input  type="text" class="form-control" id="numCartao" name="cliente" placeholder="0000 0000 0000 0000" readonly>
+                                                                    <span th:text="${c.numero}"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -417,13 +449,13 @@
                                                             <div class="col-6">
                                                                 <div class="form-group">
                                                                     <label for="validadeCartaoInput">Data de validade</label>
-                                                                    <input type="text" name="dataValidade" class="form-control" id="dataValidade" placeholder="02/2020" readonly>
+                                                                    <span th:text="${c.validade}"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-6"> 
                                                                 <div class="form-group">
                                                                     <label for="codSegurancaInput">Cód. de segurança  </label>
-                                                                    <input  type="text" class="form-control" id="codSeguranca" name="codSeguranca" placeholder="CVV" maxlength="3" readonly>
+                                                                    <span th:text="${c.codigoSeguranca}"></span>
                                                                 </div>
                                                             </div>
                                                         </div>

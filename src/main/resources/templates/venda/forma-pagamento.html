@@ -45,18 +45,20 @@
                             <div class="col-md-8 container">
                                 <div class="tab-content">
                                     <div class="card tab-pane active" id="tab1">
+                                    <form data-th-action="@{/carrinho/forma-pagamento}" method="post">
+                                    <input type="hidden" name="boleto" value="">
                                         <div class="valorProdutos">
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-12">
                                                     <div class="form-group">
                                                         <label for="nomeCartaoInput">Nome</label>
-                                                        <input  type="text" class="form-control" id="nomeCartao" name="cliente" placeholder="Titular do cartão"  >
+                                                        <input  type="text" class="form-control" id="nomeCartao" name="cliente" placeholder="Titular do cartão"  required>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-sm-12"> 
                                                     <div class="form-group">
                                                         <label for="numeroCartaoInput">Nº do cartão</label>
-                                                        <input  type="text" class="form-control" id="numCartao" name="cliente" placeholder="0000 0000 0000 0000" >
+                                                        <input  type="text" class="form-control" id="cartao" name="cartao" placeholder="0000 0000 0000 0000" maxlength="16" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -64,13 +66,13 @@
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label for="validadeCartaoInput">Data de validade</label>
-                                                        <input type="text" name="dataValidade" class="form-control" id="dataValidade" placeholder="02/2020" >
+                                                        <input type="text" name="dataValidade" class="form-control" id="dataValidade" placeholder="02/2020" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-6"> 
                                                     <div class="form-group">
                                                         <label for="codSegurancaInput">Cód. de segurança  </label>
-                                                        <input  type="text" class="form-control" id="codSeguranca" name="codSeguranca" placeholder="CVV" maxlength="3" >
+                                                        <input  type="text" class="form-control" id="codSeguranca" name="codSeguranca" placeholder="CVV" maxlength="3" required>
                                                     </div>
                                                 </div>
 
@@ -80,10 +82,11 @@
                                                     <div class="form-group">
                                                         <label for="ParcelamentoSelect">Parcelado em?</label> 
                                                         <select class="form-control" data-style="btn btn-link"
-                                                                id="ParcelamentoSelect" name="ParcelamentoSelect" required>
+                                                                id="parcela" name="parcela" required>
                                                             <option value="1">1x</option>
                                                             <option value="2">2x</option>
                                                             <option value="3">3x</option>
+                                                            <option value="4">4x</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -96,8 +99,13 @@
                                                 </div>                                                
                                             </div>
                                         </div>
+                                        </form>
                                     </div>
                                     <div class="tab-pane" id="tab2">
+                                    <form data-th-action="@{/carrinho/forma-pagamento}" method="post">
+                                    <input type="hidden" name="boleto" value="boleto">
+                                    <input type="hidden" name="cartao" value="">
+                                    <input type="hidden" name="parcela" value="0">
                                         <div class="row card">
                                             <div class="row rowprinter">
                                                 <div class="col-2">
@@ -138,7 +146,8 @@
                                                     </a>
                                                 </div> 
                                             </div>
-                                        </div> 
+                                        </div>
+                                        </form> 
                                     </div>
                                 </div>
                             </div>

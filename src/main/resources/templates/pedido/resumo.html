@@ -10,10 +10,10 @@
 		<div class="container">
 			<div class="card card-plain card-carrinho text-center">
 				<div class="card-body">
-					<b><h3 class="">Resumo do Pedido - <span data-th-text="${pedido.id}"></span></h3></b>
-					<h4 class="col-sm-12">Data: <span data-th-text="${#temporals.format(pedido.data, 'dd/MM/yyyy')}"></span></h4>
-                                        <h4 class="col-sm-12">Cliente: <span data-th-text="${pedido.cliente.nome}"></span></h4>
-					<h4>Itens do pedido</h4>					
+					<b><h3 class="title">Resumo do Pedido - <span data-th-text="${pedido.id}"></span></h3></b>
+					<h4 class="col-sm-12 title">Data: <span data-th-text="${#temporals.format(pedido.data, 'dd/MM/yyyy')}"></span></h4>
+                    <h4 class="col-sm-12 title">Cliente: <span data-th-text="${pedido.cliente.nome}"></span></h4>
+					<h4 class="title">Itens do pedido</h4>					
 				<table class="table table-no-more text-center">
 						<thead>
 							<tr>
@@ -73,7 +73,7 @@
 						<div class="col-12 col-md-6">
 							<div class="card cardCarrinhoValor">
 								<div class="card-body">
-									<h3>
+									<h3 class="title">
 										<b>R$ Valores</b>
 									</h3>
 									<hr>

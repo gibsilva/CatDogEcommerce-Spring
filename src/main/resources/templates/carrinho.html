@@ -28,18 +28,13 @@
     		}
     	});
     	
-        $('#finalizarPedido').submit(function (e) {
+        $('#resumoPedido').submit(function (e) {
         	
         	var lista = [[${#lists.isEmpty(@carrinhoController.itensSelecionados)}]];
         	
         	if(lista){
-        		toastr.warning('Inclua itens no carrinho antes de finalizar o pedido');
+        		toastr.warning('Inclua itens no carrinho antes de prosseguir com o pedido');
         		e.preventDefault(e);
-        	}
-        	
-        	if($('#txtCep').val() === ""){
-        		toastr.warning('Selecione o endereço de entrega');
-        		e.preventDefault(e);        		
         	}
         	
         	if($('#formaPagamento').val() == 1 && $('#qtdParcelas').val() == ""){
@@ -48,7 +43,7 @@
         	}
         	
         	if($('#formaPagamento').val() === ''){        		
-        		toastr.warning('Selecione uma forma de pagamento antes de finalizar o pedido');
+        		toastr.warning('Selecione uma forma de pagamento antes de prosseguir com o pedido');
         		e.preventDefault(e);
         	} else{
         		$('#txtFormaPagto').val($('#formaPagamento').val());
@@ -68,8 +63,16 @@
 		<div class="container">
 			<div class="card card-plain card-carrinho text-center">
 				<div class="card-body">
-					<h3 class="">Itens no Carrinho</h3>
-					<h4 data-th-if="${#lists.isEmpty(@carrinhoController.itensSelecionados)}">Nenhum item adicionado</h4>
+				<div th:if="${msg != null}">
+					<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					  <strong><span th:text="${msg}"></span></strong>
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+				</div>
+					<h3 class="title">Itens no Carrinho</h3>
+					<h4 class="title" data-th-if="${#lists.isEmpty(@carrinhoController.itensSelecionados)}">Seu carrinho está vazio</h4>
 					<br>
 					<table class="table table-no-more text-center" data-th-unless="${#lists.isEmpty(@carrinhoController.itensSelecionados)}">
 						<thead>
@@ -126,17 +129,24 @@
 								<div class="card-body">
 									<form data-th-action="@{/carrinho/frete}" method="post" >
 										<div class="form-group row">
-											<label for="txtCep" class="col-sm-4">Endereço de entrega</label>
+											<label for="txtCep" class="col-sm-4">Calcular frete</label>
 											<div class="col-sm-8">
-											<div data-th-if="${@carrinhoController.cepEntrega}">
-												<input data-th-value="${@carrinhoController.cepEntrega}" type="text" name="cep"class="form-control form-control-sm" id="txtCep" placeholder="CEP" readonly>
+											<div>
+												<input maxlength="9" type="text" name="cep"class="form-control form-control-sm" id="txtCep" placeholder="CEP">
 											</div>
 											</div>
+											<!--  
 											<div class="col-sm-2">
 												<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-sm btn-primary">Selecionar</button>
 											</div>
+											-->
+											<div class="col-sm-2">
+												<button type="submit" class="btn btn-sm btn-primary">Calcular</button>
+											</div>
+											
 										</div>
 									</form>
+									<!--  
 									<form data-th-action="@{/carrinho/cupom}" method="post">
 										<div class="form-group row">
 											<label for="txtCupom"
@@ -153,6 +163,7 @@
 											</div>
 										</div>
 									</form>
+									
 										<div class="form-group row">
 											<label for="txtCupom" class="col-sm-4 col-form-label col-form-label-sm">Forma de Pagamento</label>
 											<div class="col-sm-10">
@@ -177,14 +188,15 @@
 												</select>
 											</div>
 										</div>
+										-->
 								</div>
 							</div>
 						</div>
 						<div class="col-12 col-md-6">
 							<div class="card cardCarrinhoValor">
 								<div class="card-body">
-									<h3>
-										<b>R$ Valores</b>
+									<h3 class="title">
+										<b>Resumo</b>
 									</h3>
 									<hr>
 									<div class="valorProdutos text-uppercase ">
@@ -193,7 +205,7 @@
 												<label>Sub-total:</label>
 											</div>
 											<div class="col-6 ">
-												<label>R$ <span data-th-text="${#numbers.formatDecimal(@carrinhoController.valorTotal,1,'DEFAULT',2,'DEFAULT')}"></span></label>
+												<b>R$ <span data-th-text="${#numbers.formatDecimal(@carrinhoController.valorTotal,1,'DEFAULT',2,'DEFAULT')}"></span></b>
 											</div>
 										</div>
 										<div class="row valorCard">
@@ -201,9 +213,10 @@
 												<label>Valor Frete:</label>
 											</div>
 											<div class="col-6">
-												<label>R$ <span data-th-text="${#numbers.formatDecimal(@carrinhoController.valorFrete,1,'DEFAULT',2,'DEFAULT')}"></span></label>
+												<b>R$ <span data-th-text="${#numbers.formatDecimal(@carrinhoController.valorFrete,1,'DEFAULT',2,'DEFAULT')}"></span></b>
 											</div>
 										</div>
+										<!--  
 										<div class="row valorCard">
 											<div class="col-6 text-left">
 												<label>Valor Desconto:</label>
@@ -212,20 +225,24 @@
 												<label>R$ <span data-th-text="${#numbers.formatDecimal(@carrinhoController.valorDesconto,1,'DEFAULT',2,'DEFAULT')}"></span></label>
 											</div>
 										</div>
+										-->
 										<div class="row">
 											<div class="col-6 text-left">
 												<label>Valor Total:</label>
 											</div>
 											<div class="col-6">
-												<label>R$ <span data-th-text="${#numbers.formatCurrency(@carrinhoController.valorFinal)}"></span></label>
+												<b>R$ <span data-th-text="${#numbers.formatCurrency(@carrinhoController.valorFinal)}"></span></b>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-12">
-												<form data-th-action="@{/carrinho/finalizar}" name="finalizarPedido" id="finalizarPedido" method="post">
+											<a th:href="@{/carrinho/resumo-pedido}" class="btn btn-primary btnContinuar">Continuar</a>
+											<!--  
+												<form data-th-action="@{/carrinho/resumo-pedido}" name="resumoPedido" id="resumoPedido" method="post">
 													<input type="hidden" name="txtFormaPagto" id="txtFormaPagto">
-													<button type="submit" class="btn btn-primary btnContinuar">Finalizar Pedido</button>
+													<button type="submit" class="btn btn-primary btnContinuar">Continuar</button>
 												</form>
+												-->
 											</div>											
 										</div>
 									</div>

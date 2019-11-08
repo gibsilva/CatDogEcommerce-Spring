@@ -7,6 +7,8 @@ package repositorios;
 
 import entidades.Pedido;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +23,7 @@ public interface IPedidoRepositorio extends JpaRepository<Pedido, Integer> {
     
     @Query(value = "select * from pedido where id = :id", nativeQuery = true)
     public Pedido obterPorId(@Param("id")Integer id);
+    
+    @Query(value = "select * from pedido where idcliente = :id", nativeQuery = true)
+    public List<Pedido> obterPorIdCliente(@Param("id")Integer id);
 }
