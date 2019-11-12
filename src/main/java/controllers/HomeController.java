@@ -60,4 +60,9 @@ public class HomeController {
     public String meuPerfil() {
         return "/clientes/meuPerfil"; //aqui o nome da tela
     }
+    
+    @GetMapping("/cliente/pedido-selecionado") //chamada na url
+    public String pedidoSelecionado() {
+        return "/clientes/pedido-selecionado"; //aqui o nome da tela
+    }
 }

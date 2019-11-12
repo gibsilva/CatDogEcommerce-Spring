@@ -40,7 +40,7 @@
                         <div class="card-body ">
                             <div class="tab-content text-center">
                                 <div class="tab-pane active show" id="profile">
-                                    <form th:object="${cliente}" th:action="@{/cliente/salvar}" method="POST">
+                                    <form class="text-center" th:object="${cliente}" th:action="@{/cliente/salvar}" method="POST">
                                         <h3>Dados Pessoais</h3>
                                         <div class="form-group row">
                                             <div class="" th:if="${#fields.hasAnyErrors()}">
@@ -50,13 +50,13 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6 col-sm-12">
+                                            <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="nomeCompletoInput">Nome</label>
                                                     <input th:field="*{nome}" type="text" class="form-control" id="nome" name="nome" placeholder="Seu nome aqui" required>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-sm-12">
+                                            <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="nomeCompletoInput">Sobrenome</label>
                                                     <input th:field="*{sobrenome}" type="text" class="form-control" id="sobrenome" name="sobrenome" placeholder="Seu sobrenome aqui" required>
@@ -64,13 +64,13 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6 col-sm-12">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label for="EmailInput">Email</label>
                                                     <input th:field="*{email}" type="email" class="form-control" id="email" name="email" placeholder="email@exemplo.com" required>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label class="label-control">Data de nascimento</label>
                                                     <input type="date" name="dataNasc" class="form-control" th:classappend="${#fields.hasErrors('dataNasc')}? is-invalid" 
@@ -78,14 +78,14 @@
                                                            th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label for="cpfInput">CPF</label>
                                                     <input th:field="*{cpf}" type="text" class="form-control" id="cpf" 
                                                            name="cpf" placeholder="000.000.000-00" maxlength="11" required>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group">
                                                     <label for="sexoSelect">Sexo</label>
                                                     <select th:field="*{sexo}" class="form-control" id="sexo" name="sexo" required>
@@ -97,14 +97,14 @@
                                             </div> 
                                         </div>
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="celularInput">Celular</label>
                                                     <input th:field="*{celular}" type="text" class="form-control" id="celular" 
                                                            name="celular"  placeholder="(00)00000-0000" maxlength="11" required>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="telefoneInput">Telefone </label>
                                                     <input th:field="*{telefone}" type="text" class="form-control" id="telefone" 
@@ -113,13 +113,13 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label for="senhaInput">Senha</label>
                                                     <input th:field="*{senha}" type="password" minlength="6" maxlength="12" class="form-control" id="senha" name="senha" required>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-12 col-md-6">
                                                 <div class="form-group">
                                                     <label for="confirmarSenhaInput">Confirmar senha</label>
                                                     <input type="password" class="form-control" id="confirmarSenha" name="confirmarSenha" >
@@ -255,7 +255,7 @@
 
             <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-            <script th:inline="javascript">           
+            <script th:inline="javascript">
 
                 $(document).ready(function () {
                     if ($('.card-header.card-chart').length != 0) {
