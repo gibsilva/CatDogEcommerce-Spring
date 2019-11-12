@@ -65,4 +65,9 @@ public class HomeController {
     public String pedidoSelecionado() {
         return "/clientes/pedido-selecionado"; //aqui o nome da tela
     }
+    
+     @GetMapping("/Alimentos/Produtos") //chamada na url
+    public String ProdutosLista() {
+        return "/produto-com-filtro"; //aqui o nome da tela
+    }
 }

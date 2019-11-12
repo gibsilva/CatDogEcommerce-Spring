@@ -674,3 +674,6 @@ select{
 .form-control{
     text-align: center !important;
 }
+.filterProd{
+    margin: 10px;
+}
