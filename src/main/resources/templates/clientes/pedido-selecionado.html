@@ -52,9 +52,9 @@
                             </table>
                             <br>
                             <div class="row">
-                                <div class="col-12 col-md-6">
-                                    <div class="card cardCarrinhoValor text-center">
-                                        <div class="card-body">
+                                <div class="col-12 col-md-12">
+                                    <div class="cardCarrinhoValor text-center">
+                                        <div class="">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <h3 class="title">Dados de Entrega</h3>
@@ -62,37 +62,38 @@
                                             </div>
                                             <hr>
                                             <div class="form-group row ">
-                                                <div class="col-12">
+                                                <div class="col-md-2 col-4">
+                                                    <label for="txtCep" class="">Cep</label>
+                                                    <input type="text" name="cep" class="form-control form-control-sm" id="txtCep" readonly>
+                                                </div>
+                                                <div class="col-md-10 col-8">
                                                     <label for="txtEndereco" class="">Endereço de entrega</label>
                                                     <input  type="text" name="endereco" class="form-control form-control-sm" id="txtEndereco" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <div class="col-8">
+                                                <div class="col-md-6 col-8">
                                                     <label for="txtComplemento" class="">Complemento</label>
                                                     <input type="text" name="complemento" class="form-control form-control-sm" id="txtComplemento" readonly>
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-4 col-md-2">
                                                     <label for="txtNumero" class="">Número</label>
                                                     <input type="text" name="numero" class="form-control form-control-sm" id="txtNumero" readonly>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="col-8">
+                                                <div class="col-md-4 col-6">
                                                     <label for="txtCidade" class="">Cidade</label>
                                                     <input type="text" name="cidade" class="form-control form-control-sm" id="txtCidade" readonly>
-                                                </div>
-                                                <div class="col-4">
-                                                    <label for="txtCep" class="">Cep</label>
-                                                    <input type="text" name="cep" class="form-control form-control-sm" id="txtCep" readonly>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <br>
+                            <div class="row">
                                 <div class="col-12 col-md-6">
-                                    <div class="card cardCarrinhoValor">
-                                        <div class="card-body">
+                                    <div class=" cardCarrinhoValor">
+                                        <div class="">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <h3 class="title"> R$ Valores </h3>
@@ -140,7 +141,7 @@
                             </div>
                         </div>
                         <div class="row ">
-                            <div class="col-12 col-md-4 ">
+                            <div class="col-12 col-md-4 offset-md-8 ">
                                 <button class="btn btnContinuar btn-primary">Voltar</button>
                             </div>
                         </div>

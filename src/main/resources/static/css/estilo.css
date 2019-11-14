@@ -671,9 +671,6 @@ btn-group{
 select{
     text-align-last: center;
 }
-.form-control{
-    text-align: center !important;
-}
 .filterProd{
     margin: 10px;
 }
