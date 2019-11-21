@@ -100,7 +100,7 @@ CREATE TABLE endereco(
   Cep varchar(8) NOT NULL,
   logradouro varchar(250) NOT NULL,
   Numero varchar(15) NOT NULL,
-  Complemento varchar(40) NOT NULL,
+  Complemento varchar(40),
   Estado varchar(2) NOT NULL,
   Cidade varchar(60) NOT NULL,
   Bairro varchar(60) NOT NULL,
