@@ -121,8 +121,10 @@ public class Cliente implements Serializable {
 
     @Column(name = "ativo")
     private Boolean ativo;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
+    
+    private transient Endereco endereco;
+    
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
     private List<Endereco> enderecos;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
@@ -235,4 +237,13 @@ public class Cliente implements Serializable {
         boolean senhaValida = BCrypt.checkpw(senha, this.getSenha());
         return senhaValida;
     }
+    
+    public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
 }

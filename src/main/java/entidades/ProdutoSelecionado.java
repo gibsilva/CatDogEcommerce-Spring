@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class ProdutoSelecionado {
-	private Produto produto;
+	private Produto item;
 
 	private int quantidade;
 
@@ -17,17 +17,17 @@ public class ProdutoSelecionado {
 	}
 
 	public ProdutoSelecionado(Produto produto, int quantidade) {
-		this.produto = produto;
+		this.item = produto;
 		this.quantidade = quantidade;
 		this.dataHoraInclusao = LocalDateTime.now();
 	}
 
 	public Produto getItem() {
-		return produto;
+		return item;
 	}
 
-	public void setItem(Produto produto) {
-		this.produto = produto;
+	public void setItem(Produto item) {
+		this.item = item;
 	}
 
 	public int getQuantidade() {
@@ -55,6 +55,6 @@ public class ProdutoSelecionado {
 	}
 
 	public double getSubtotal() {
-		return produto.getPrecoVenda() * quantidade;
+		return item.getPrecoVenda() * quantidade;
 	}
 }

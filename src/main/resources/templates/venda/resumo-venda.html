@@ -141,6 +141,7 @@
                                             <h3 class="title"><i class="fas fa-credit-card"></i> Pagamento</h3>
                                             <div class="valorProdutos text-uppercase ">
                                             <a th:href="@{/carrinho/forma-pagamento}" class="btn btn-sm btn-block btn-primary">Selecionar forma de pagamento</a>
+                                            <b><span class="title" data-th-text="${@carrinhoController.FormaPagamentoExtenso}"></span></b><i class="material-icons">done</i>
                                             <br>
 			                                   <form data-th-action="@{/carrinho/cupom}" method="post">
 													<div class="form-group row">

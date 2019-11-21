@@ -12,12 +12,9 @@
                             <div class="col-sm-5 ">
                                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            <img class="d-block carousel-picture " src="/img/card-product1.jpg" alt="First slide">
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img class="d-block carousel-picture" src="/img/card-product1.jpg" alt="Second slide">
-                                        </div>
+	                                    <div th:each="p,i : ${produto.imagens}" class="carousel-item" th:classappend="${i.index == 0} ? active">
+	                                        <img class="d-block carousel-picture " th:src="@{/produtos/imagem/{id}(id=${p.id})}" alt="First slide">
+	                                    </div>
                                     </div>
                                     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                                         <span class="carousel-control-prev-icon iconCarousel" aria-hidden="true"></span>
@@ -30,13 +27,13 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 descricao justify-content-center">
-                                <h4 th:text="${produto.nome}" class="nomeProduto">
+                                <h4 th:text="${produto.nome}" class="nomeProduto title">
                                     <button type="button" rel="tooltip" title="" class="btn btn-just-icon btn-round btn-rose btn-sm" data-original-title="Salvar nos Favoritos">
                                         <i class="material-icons">favorite</i>
                                     </button>
                                 </h4>
 
-                                <h2 class="precoProduto">R$ <span data-th-text="${#numbers.formatDecimal(produto.precoVenda,1,'DEFAULT',2,'DEFAULT')}"></span></h2>
+                                <h2 class="precoProduto"><b>R$ <span data-th-text="${#numbers.formatDecimal(produto.precoVenda,1,'DEFAULT',2,'DEFAULT')}"></span></b></h2>
                                 <h5 class="parcelamentoProduto">ou 4x de R$ <span th:text="${produto.precoVenda/4}"></span> Sem juros</h5>
 
                                 <div class="row">
@@ -51,8 +48,7 @@
                                 <div class="row">
                                     <div class="col-10">
                                         <div class="detalhes">
-                                            <h6>DETALHES</h6>
-                                            <br>
+                                            <h5 class="title">DETALHES</h5>
                                             <p>- <span th:text="${produto.descricao}"></span></p>
                                             <p>- <span th:text="${produto.especificacao}"></span></p> 
                                         </div>

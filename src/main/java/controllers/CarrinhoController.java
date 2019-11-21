@@ -16,6 +16,7 @@ import entidades.ProdutoSelecionado;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import repositorios.IClienteRepositorio;
 import repositorios.IEnderecoRepositorio;
+import repositorios.IImagemRepositorio;
 import repositorios.IItensPedidoRepositorio;
 import repositorios.IPedidoRepositorio;
 import repositorios.IProdutoRepositorio;
@@ -46,9 +48,10 @@ public class CarrinhoController {
     private final IItensPedidoRepositorio itensPedidoRepositorio;
     private final IPedidoRepositorio pedidoRepositorio;
     private final IEnderecoRepositorio enderecoRepositorio;
+    private final IImagemRepositorio imagemRepositorio;
     
     private List<ProdutoSelecionado> produtosSelecionados = new ArrayList<>();
-	private int valorFrete = 0;
+	private double valorFrete = 0;
 	private int valorDesconto = 0;
 	private Endereco endereco = null;
 	private String cepEntrega = "0";
@@ -59,29 +62,23 @@ public class CarrinhoController {
 
     @Autowired
     public CarrinhoController(IProdutoRepositorio produtoRepositorio, IItensPedidoRepositorio itensPedidoRepositorio,
-    		IPedidoRepositorio pedidoRepositorio, IEnderecoRepositorio enderecoRepositorio) {
+    		IPedidoRepositorio pedidoRepositorio, IEnderecoRepositorio enderecoRepositorio, IImagemRepositorio imagemRepositorio) {
         this.produtoRepositorio = produtoRepositorio;
         this.itensPedidoRepositorio = itensPedidoRepositorio;
         this.pedidoRepositorio = pedidoRepositorio;
         this.enderecoRepositorio = enderecoRepositorio;
+        this.imagemRepositorio = imagemRepositorio;
     }
 
     @GetMapping
     public ModelAndView mostrar() {
         return new ModelAndView("carrinho");
     }
-
-    @GetMapping("/detalhes/{id}")
-    public ModelAndView detalhesProduto(@PathVariable("id") Integer id) {
-        ModelAndView view = new ModelAndView("detalhes-produto");
-        Produto produto = (produtoRepositorio.obterPorId(id));
-        view.addObject("produto", produto);
-        return view;
-    }
     
 	@PostMapping
 	public ModelAndView adicionar(@RequestParam("itemId") int itemId, RedirectAttributes redirAttr) {
 		Produto p = produtoRepositorio.obterPorId(itemId);
+		p.setImagens(imagemRepositorio.findByIdProduto(p.getId()));
 		produtosSelecionados.add(new ProdutoSelecionado(p, 1));
 		return new ModelAndView("redirect:/carrinho");
 	}
@@ -91,7 +88,7 @@ public class CarrinhoController {
 		ProdutoSelecionado sel = produtosSelecionados.get(listIndex);
 		if (quantidade > 0) {
 			sel.setQuantidade(quantidade);
-			redirAttr.addFlashAttribute("msg", "Quantidade do item '" + sel.getItem().getNome() + "' alterada");
+			//redirAttr.addFlashAttribute("msg", "Quantidade do item '" + sel.getItem().getNome() + "' alterada");
 		} else {
 			produtosSelecionados.remove(listIndex);
 			redirAttr.addFlashAttribute("msg", "Item '" + sel.getItem().getNome() + "' removido");
@@ -105,7 +102,7 @@ public class CarrinhoController {
 		int quantidadeAtual = sel.getQuantidade();
 		quantidadeAtual++;
 		sel.setQuantidade(quantidadeAtual);
-		redirAttr.addFlashAttribute("msg", "Quantidade do produto '" + sel.getItem().getNome() + "' incrementada");
+		//redirAttr.addFlashAttribute("msg", "Quantidade do produto '" + sel.getItem().getNome() + "' incrementada");
 		return new ModelAndView("redirect:/carrinho");
 	}
 	
@@ -132,7 +129,7 @@ public class CarrinhoController {
 	}
 	
 	@PostMapping("/frete")
-	public ModelAndView calcularFrete(@RequestParam("cep") String cep, HttpSession session) {
+	public ModelAndView calcularFrete(@RequestParam("cep") String cep, HttpSession session, RedirectAttributes redirAttr) throws Exception {
 		if ("04863-450".equals(cep)) {
 			valorFrete = 30;
 		} else if ("04578-910".equals(cep)) {
@@ -144,6 +141,11 @@ public class CarrinhoController {
 		} else {
 			valorFrete = 25;
 		}
+		
+		//CorreiosPrecoPrazo result = new ConsultaCorreios().calcularPrecoPrazo("04794000", cep)[0];
+		
+		//valorFrete = result.getPrecoFrete();
+		
 		
 		return new ModelAndView("redirect:/carrinho");
 	}
@@ -164,6 +166,10 @@ public class CarrinhoController {
 		Cliente cliente = (Cliente) session.getAttribute("usuarioLogado");
 		if(cliente != null) {
 			cliente.setEnderecos(enderecoRepositorio.findByIdCliente(cliente.getId()));
+			if(this.endereco == null) {
+				Optional<Endereco> optEnd = cliente.getEnderecos().stream().findFirst();
+				this.endereco = optEnd.get();
+			}
 			view.addObject("enderecos", cliente.getEnderecos());
 			return view;
 		} else {
@@ -213,20 +219,15 @@ public class CarrinhoController {
 		
 		Pedido pedido = new Pedido(0, 1, LocalDateTime.now(), formaPagamento, 1, valorDesconto, endereco.getCep(), this.getValorFrete());
 		pedido.setParcela(parcela);
-		List<ItensPedido> itens = new ArrayList<ItensPedido>();
 		try {
 			pedidoRepositorio.save(pedido);
 			int idPedido = pedidoRepositorio.findByLastId();
 			
 			for(ProdutoSelecionado sel : produtosSelecionados) {
 				ItensPedido item = new ItensPedido(0, sel.getItem().getId(), sel.getItem().getPrecoVenda(), sel.getQuantidade(), idPedido);
-				itens.add(item);
+				itensPedidoRepositorio.save(item);
 			}
-			
-			for(ItensPedido i : itens) {
-				itensPedidoRepositorio.save(i);
-			}
-			
+
 			return new ModelAndView("redirect:/pedido?&idPedido=" + idPedido);
 		} catch(Exception e) {
 			redirAttr.addFlashAttribute("msg", "Ocorreu um erro ao salvar o pedido");
@@ -253,11 +254,11 @@ public class CarrinhoController {
 		this.produtosSelecionados = produtosSelecionados;
 	}
 
-	public int getValorFrete() {
+	public double getValorFrete() {
 		return valorFrete;
 	}
 
-	public void setValorFrete(int valorFrete) {
+	public void setValorFrete(double valorFrete) {
 		this.valorFrete = valorFrete;
 	}
 	

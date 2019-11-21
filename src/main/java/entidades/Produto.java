@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,8 +60,7 @@ public class Produto implements Serializable {
     @Column(name = "idcategoria")
     private int idCategoria;
 
-    @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", insertable = false, updatable = false)
     private Categoria categoria;
 
@@ -68,12 +68,11 @@ public class Produto implements Serializable {
     @NotNull(message = "A marca é obrigatória")
     private int idMarca;
 
-    @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", insertable = false, updatable = false)
     private Marca marca;
 
-    @OneToMany(mappedBy = "produto")
+    @OneToMany(mappedBy = "produto", fetch = FetchType.LAZY)
     private List<Imagem> imagens;
 
     @Column(name = "tipoanimal")

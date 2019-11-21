@@ -28,6 +28,13 @@
     		}
     	});
     	
+    	$('#frmFrete').submit(function(e){
+    		if($('#txtCep').val() == ''){
+    			toastr.warning('Preencha o cep para calcular o frete');
+    			e.preventDefault(e);
+    		}
+    	});
+    	
         $('#resumoPedido').submit(function (e) {
         	
         	var lista = [[${#lists.isEmpty(@carrinhoController.itensSelecionados)}]];
@@ -63,7 +70,7 @@
 		<div class="container">
 			<div class="card card-plain card-carrinho text-center">
 				<div class="card-body">
-				<div th:if="${msg != null}">
+				<div id="divErros" th:if="${msg != null}">
 					<div class="alert alert-warning alert-dismissible fade show" role="alert">
 					  <strong><span th:text="${msg}"></span></strong>
 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -85,8 +92,7 @@
 						</thead>
 						<tbody>
 							<tr data-th-each="sel,stat : ${@carrinhoController.itensSelecionados}">
-								<td><img class="imgProdutoCarrinho"
-									src="/img/card-product1.jpg"></td>
+								<td><img width="60" height="85" class="imgProdutoCarrinho" th:src="@{/produtos/imagem/{id}(id=${sel.item.imagens[0].id})}"></td>
 								<td data-th-text="${sel.item.nome}"></td>
 								<td>R$ <span data-th-text="${#numbers.formatDecimal(sel.item.precoVenda,1,'DEFAULT',2,'DEFAULT')}"></span></td>
 								<td class="text-center">
@@ -127,12 +133,12 @@
 						<div class="col-12 col-md-6">
 							<div class="card cardCarrinhoValor">
 								<div class="card-body">
-									<form data-th-action="@{/carrinho/frete}" method="post" >
+									<form id="frmFrete" data-th-action="@{/carrinho/frete}" method="post" >
 										<div class="form-group row">
 											<label for="txtCep" class="col-sm-4">Calcular frete</label>
 											<div class="col-sm-8">
 											<div>
-												<input maxlength="9" type="text" name="cep"class="form-control form-control-sm" id="txtCep" placeholder="CEP">
+												<input maxlength="9" type="text" name="cep" class="form-control form-control-sm" id="txtCep" placeholder="CEP">
 											</div>
 											</div>
 											<!--  

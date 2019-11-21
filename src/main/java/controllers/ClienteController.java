@@ -65,6 +65,10 @@ public class ClienteController {
 		
 		if(!validarCpf(cliente.getCpf()))
 			bindingResult.reject("cpf","CPF inválido");
+		
+		if(cliente.getEndereco().getCep().equals("") || cliente.getEndereco().getNumero().equals("") ) {
+			bindingResult.reject("cep","Preencha todos os dados do endereço");
+		}
 
 		if (repositorio.count() != 0) {
 			if (repositorio.findByEmail(cliente.getEmail()) != null) {
@@ -80,7 +84,9 @@ public class ClienteController {
 			return new ModelAndView("clientes/incluir-cliente");
 		} else {
 			cliente.setSenhaEncriptada(cliente.getSenha());
-			repositorio.save(cliente);
+			Cliente c = repositorio.save(cliente);
+			cliente.getEndereco().setIdCliente(c.getId());
+			enderecoRepositorio.save(cliente.getEndereco());
 		}
 
 		ModelAndView view = new ModelAndView("redirect:/");
