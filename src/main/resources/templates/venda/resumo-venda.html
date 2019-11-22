@@ -45,7 +45,7 @@
         <main layout:fragment="conteudo">
             <section>
                 <div class="container">
-                    <div class="card card-plain card-carrinho text-center">
+                    <div class="card card-plain card-carrinho">
                         <div class="card-body">
 							<div th:if="${msg != null}">
 								<div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -84,7 +84,7 @@
                             <div class="">
                                 <div class="col-12">
                                     <div class="card cardCarrinhoValor">
-                                        <div class="card-body">
+                                        <div class="card-body text-center">
                                             <h3 class="title"><i class="fas fa-map-marker-alt"></i>Endereço de entrega</h3>
                                             <hr>
                                             <div class="valorProdutos text-uppercase ">
@@ -134,8 +134,118 @@
                                     </div>
                                 </div>                              
                             </div>
-                            <div class="row">
-                            <div class="col-12 col-md-6">
+                            <div class="card cardCarrinhoValor">
+                            	<div class="card-body">
+                            		<div class="row">
+                            		<h3 class="title"><i class="fas fa-credit-card"></i> Pagamento</h3>
+									    <div class="col-md-4">
+									        <ul class="nav nav-pills nav-pills-icons flex-column">
+									          <li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Boleto</a></li>
+									          <li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Cartão de crédito</a></li>
+									        </ul>
+									    </div>
+									    <div class="col-md-7">
+									        <div class="tab-content">
+									            <div class="tab-pane active" id="tab1">
+									            <form data-th-action="@{/carrinho/pagamento-boleto}" method="post">		            
+									            	<p><i class="material-icons">print</i> Imprime e pague no <b>banco</b></p>
+									            	<p><i class="material-icons">devices</i> Ou pague pela internet utilizando o <b>código de barras</b> do boleto</p>
+									            	<p><i class="material-icons">calendar_today</i> O prazo de validade é de <b>1 dia útil</b></p>
+									            	<i class="material-icons">attach_money</i> Á vista no valor de <b><span class="text-success" data-th-text="${#numbers.formatCurrency(@carrinhoController.valorFinal)}"></span></b></br>
+									            	<div class="offset-md-9 col-md-3 col-12">
+									            		<button type="submit" class="btn btn-sm btn-primary">Pagar com boleto</button>
+									            	</div>
+									            </form> 
+									            </div>
+									            <div class="tab-pane" id="tab2">
+									            	<form th:object="${cartao}" th:action="@{/carrinho/pagamento-cartao}" method="POST">
+					                                    <input type="hidden" th:field="*{idCliente}" th:value="${session.usuarioLogado.id}">
+					                                        <div class="valorProdutos">
+					                                            <div class="row">
+					                                                <div class="col-md-6 col-sm-12">
+					                                                    <div class="form-group">
+					                                                        <label for="nomeCartaoInput">Nome</label>
+					                                                        <input th:field="*{nome}" type="text" class="form-control" id="nomeCartao" name="cliente" placeholder="Titular do cartão"  required>
+					                                                    </div>
+					                                                </div>
+					                                                <div class="col-lg-6 col-sm-12"> 
+					                                                    <div class="form-group">
+					                                                        <label for="numeroCartaoInput">Nº do cartão</label>
+					                                                        <input th:field="*{numero}" type="text" class="form-control" id="cartao" name="cartao" placeholder="0000 0000 0000 0000" maxlength="16" required>
+					                                                    </div>
+					                                                </div>
+					                                            </div>
+					                                            <div class="row">
+					                                                <div class="col-6">
+					                                                    <div class="form-group">
+					                                                        <label for="validadeCartaoInput">Data de validade</label>
+					                                                        <input th:field="*{validade}" type="text" name="dataValidade" class="form-control" id="dataValidade" placeholder="02/2020" required>
+					                                                    </div>
+					                                                </div>
+					                                                <div class="col-6"> 
+					                                                    <div class="form-group">
+					                                                        <label for="codSegurancaInput">Cód. de segurança  </label>
+					                                                        <input th:field="*{codigoSeguranca}" type="text" class="form-control" id="codSeguranca" name="codSeguranca" placeholder="CVV" maxlength="3" required>
+					                                                    </div>
+					                                                </div>
+					
+					                                            </div>
+					                                            <div class="row">
+					                                                <div class="col-md-4 col-12"> 
+					                                                    <div class="form-group">
+					                                                        <label for="ParcelamentoSelect">Parcelado em?</label> 
+					                                                        <select class="form-control" data-style="btn btn-link"
+					                                                                id="parcela" name="parcela" required>
+					                                                            <option value="1">1x</option>
+					                                                            <option value="2">2x</option>
+					                                                            <option value="3">3x</option>
+					                                                            <option value="4">4x</option>
+					                                                        </select>
+					                                                    </div>
+					                                                </div>
+					                                                <div>
+					                                                  <div class="form-check">
+																	      <label class="form-check-label">
+																	          <input class="form-check-input" name="checkSalvar" type="checkbox" value="s">
+																	          Salvar cartão para futuras compras
+																	          <span class="form-check-sign">
+																	              <span class="check"></span>
+																	          </span>
+																	      </label>
+																	  </div>					                                                
+					                                                </div>
+					                                                <div class="offset-md-9 col-md-3 col-12">
+					                                                     <button type="submit" class="btn btn-sm btn-primary">Pagar com cartão</button>
+					                                                </div>                                                
+					                                            </div>
+					                                        </div>
+					                                      </form>
+					                                      	<div data-th-unless="${#lists.isEmpty(cartoes)}">
+					                                            <button type="button" data-toggle="modal" data-target="#modalCartao" class="btn btn-sm btn-primary">Selecionar cartão salvo</button>
+					                                        </div>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+                            	</div>
+                            </div>
+                            <div class="card">
+                            	<div class="card-body">
+                            		<h3 class="title"><i class="material-icons">description</i> Possui cupom?</h3>
+                            		<form data-th-action="@{/carrinho/cupom}" method="post">
+                            			<div class="form-group row">
+                            				<label for="txtCupom"class="col-sm-4 col-form-label col-form-label-sm">Cupom</label>
+                            				<div class="col-sm-8">
+                            					<input type="text" name="cupom" class="form-control form-control-sm" id="txtCupom" placeholder="Insira aqui seu cupom de desconto" required>
+											</div>
+											<div class="col-sm-2">
+												<button type="submit"class="btn btn-sm btn-primary">Aplicar cupom</button>
+											</div>
+                            			</div>
+                            		</form>
+                            	</div>
+                            </div>
+                            <!--
                                     <div class="card cardCarrinhoValor">
                                         <div class="card-body">
                                             <h3 class="title"><i class="fas fa-credit-card"></i> Pagamento</h3>
@@ -162,9 +272,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>              
-                                <div class="col-12 col-md-6">
-                                    <div class="card cardCarrinhoValor">
+                                </div> 
+                                -->                             	
+                            <div class="row">            
+                                <div class="col-md-12">
+                                    <div class="card cardCarrinhoValor text-center">
                                         <div class="card-body">
                                             <h3 class="title"><i class="fas fa-check-circle"></i> Resumo</h3>
                                             <hr>
@@ -198,7 +310,7 @@
 												<label>Valor Total:</label>
 											</div>
 											<div class="col-6">
-												<b>R$ <span data-th-text="${#numbers.formatCurrency(@carrinhoController.valorFinal)}"></span></b>
+												<b><span data-th-text="${#numbers.formatCurrency(@carrinhoController.valorFinal)}"></span></b>
 											</div>
 										</div>
                                                 <hr>
@@ -235,7 +347,7 @@
                 </div>
             </section>
             
-            		<!-- Modal -->
+            		<!-- Modal Endereco-->
 					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 					  <div class="modal-dialog" role="document">
 					    <div class="modal-content">
@@ -270,6 +382,48 @@
 					  </div>
 					 </div>
 					</div>
+					<!-- Fim Modal Endereco-->
+					
+            		<!-- Modal Cartoes-->
+					<div class="modal fade" id="modalCartao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title title" id="exampleModalLongTitle">Selecione um cartão cadastrado</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					      	<div data-th-each="sel : ${cartoes}">
+						      	<form data-th-action="@{/carrinho/pagamento-cartao-existente}" method="post" >
+								      <div class="description">
+						                <h4 class="info-title"><span th:text="${sel.nome}"></span></h4>
+						                <p>Número: <span th:text=${#strings.substring(sel.numero,0,4)}></span>.XXXX.XXXX.<span th:text=${#strings.substring(sel.numero,12,16)}></span><br>
+						                Validade: <span th:text="${sel.validade}"></span></p>
+					                    <div class="form-group col-md-4">
+						                    <label for="ParcelamentoSelect">Nº de parcelas</label> 
+						                    <select class="form-control" data-style="btn btn-link" id="parcela" name="parcela" required>
+						                       <option value="1">1x</option>
+						                       <option value="2">2x</option>
+						                       <option value="3">3x</option>
+						                       <option value="4">4x</option>
+						                    </select>
+					                    </div>						                					                
+						                <input type="hidden" th:value="${sel.id}" name="id">
+						                <button type="submit" class="btn btn-sm btn-primary">Selecionar</button>
+						              </div>
+					              </form>					      	
+					      	</div>
+					      	<hr>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+					      </div>
+					    </div>
+					  </div>
+					 </div>
+					</div>
+					<!-- Fim Modal Cartoes-->					
         </main>
     </body>
 </html>

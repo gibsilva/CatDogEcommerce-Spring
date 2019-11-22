@@ -62,6 +62,8 @@ public class ClienteController {
 	public ModelAndView salvar(@ModelAttribute("cliente") @Valid Cliente cliente, BindingResult bindingResult,
 			RedirectAttributes redirAttr) {
 		cliente.setAtivo(true);
+		cliente.getEndereco().setTipoEndereco("Principal");
+		cliente.getEndereco().setNomeDestinatario(cliente.getNome());
 		
 		if(!validarCpf(cliente.getCpf()))
 			bindingResult.reject("cpf","CPF inválido");

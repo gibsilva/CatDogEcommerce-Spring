@@ -11,4 +11,7 @@ import entidades.CartaoCredito;
 public interface ICartaoCreditoRepositorio extends JpaRepository<CartaoCredito, Integer> {
 	@Query(value = "select * from cartaocredito where idcliente = :idcliente", nativeQuery = true)
 	List<CartaoCredito> findByIdCliente(@Param("idcliente")Integer idcliente);
+	
+	@Query(value = "select * from cartaocredito where idcliente = :idcliente and numero = :numero", nativeQuery = true)
+	CartaoCredito findByNumberAndIdCliente(@Param("idcliente")Integer idcliente, @Param("numero")String numero);
 }

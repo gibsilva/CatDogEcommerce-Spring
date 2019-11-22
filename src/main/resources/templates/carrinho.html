@@ -43,7 +43,7 @@
         		toastr.warning('Inclua itens no carrinho antes de prosseguir com o pedido');
         		e.preventDefault(e);
         	}
-        	
+        	/*
         	if($('#formaPagamento').val() == 1 && $('#qtdParcelas').val() == ""){
         		toastr.warning('Selecione a quantidade de parcelas');
         		e.preventDefault(e);
@@ -55,6 +55,7 @@
         	} else{
         		$('#txtFormaPagto').val($('#formaPagamento').val());
         	}
+        	*/
         });
     });
     
@@ -241,14 +242,10 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-12">
-											<a th:href="@{/carrinho/resumo-pedido}" class="btn btn-primary btnContinuar">Continuar</a>
-											<!--  
-												<form data-th-action="@{/carrinho/resumo-pedido}" name="resumoPedido" id="resumoPedido" method="post">
-													<input type="hidden" name="txtFormaPagto" id="txtFormaPagto">
+											<div class="col-12"> 
+												<form data-th-action="@{/carrinho/resumo-pedido}" name="resumoPedido" id="resumoPedido" method="get">
 													<button type="submit" class="btn btn-primary btnContinuar">Continuar</button>
 												</form>
-												-->
 											</div>											
 										</div>
 									</div>

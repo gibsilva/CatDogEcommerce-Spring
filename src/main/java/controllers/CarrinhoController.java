@@ -19,11 +19,14 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import repositorios.ICartaoCreditoRepositorio;
 import repositorios.IClienteRepositorio;
 import repositorios.IEnderecoRepositorio;
 import repositorios.IImagemRepositorio;
@@ -49,6 +53,7 @@ public class CarrinhoController {
     private final IPedidoRepositorio pedidoRepositorio;
     private final IEnderecoRepositorio enderecoRepositorio;
     private final IImagemRepositorio imagemRepositorio;
+    private final ICartaoCreditoRepositorio cartaoRepositorio;
     
     private List<ProdutoSelecionado> produtosSelecionados = new ArrayList<>();
 	private double valorFrete = 0;
@@ -62,12 +67,14 @@ public class CarrinhoController {
 
     @Autowired
     public CarrinhoController(IProdutoRepositorio produtoRepositorio, IItensPedidoRepositorio itensPedidoRepositorio,
-    		IPedidoRepositorio pedidoRepositorio, IEnderecoRepositorio enderecoRepositorio, IImagemRepositorio imagemRepositorio) {
+    		IPedidoRepositorio pedidoRepositorio, IEnderecoRepositorio enderecoRepositorio, IImagemRepositorio imagemRepositorio,
+    		ICartaoCreditoRepositorio cartaoRepositorio) {
         this.produtoRepositorio = produtoRepositorio;
         this.itensPedidoRepositorio = itensPedidoRepositorio;
         this.pedidoRepositorio = pedidoRepositorio;
         this.enderecoRepositorio = enderecoRepositorio;
         this.imagemRepositorio = imagemRepositorio;
+        this.cartaoRepositorio = cartaoRepositorio;
     }
 
     @GetMapping
@@ -130,13 +137,13 @@ public class CarrinhoController {
 	
 	@PostMapping("/frete")
 	public ModelAndView calcularFrete(@RequestParam("cep") String cep, HttpSession session, RedirectAttributes redirAttr) throws Exception {
-		if ("04863-450".equals(cep)) {
+		if ("04863450".equals(cep)) {
 			valorFrete = 30;
-		} else if ("04578-910".equals(cep)) {
+		} else if ("04578910".equals(cep)) {
 			valorFrete = 20;
-		} else if ("22222-222".equals(cep)) {
+		} else if ("22222222".equals(cep)) {
 			valorFrete = 50;
-		} else if ("04583-110".equals(cep)) {
+		} else if ("04583110".equals(cep)) {
 			valorFrete = 10;
 		} else {
 			valorFrete = 25;
@@ -152,9 +159,12 @@ public class CarrinhoController {
 	
 	@PostMapping("/cupom")
 	public ModelAndView adicionarCupom(@RequestParam("cupom") String cupom, RedirectAttributes redirAttr) {
-		if ("CATDOG20OFF".equals(cupom)) {
+		if ("CATDOG20OFF".equals(cupom.toUpperCase())) {
 			valorDesconto = 20;
-		} else {
+		} else if("CATDOG10OFF".equals(cupom.toUpperCase())) {
+			valorDesconto = 10;
+		}
+		else {
 			redirAttr.addFlashAttribute("msg", "Cupom inválido, verifique o código digitado");
 		}
 		return new ModelAndView("redirect:/carrinho/resumo-pedido");
@@ -166,11 +176,16 @@ public class CarrinhoController {
 		Cliente cliente = (Cliente) session.getAttribute("usuarioLogado");
 		if(cliente != null) {
 			cliente.setEnderecos(enderecoRepositorio.findByIdCliente(cliente.getId()));
+			cliente.setCartoes(cartaoRepositorio.findByIdCliente(cliente.getId()));
 			if(this.endereco == null) {
 				Optional<Endereco> optEnd = cliente.getEnderecos().stream().findFirst();
 				this.endereco = optEnd.get();
+				this.cepEntrega = this.endereco.getCep();
 			}
 			view.addObject("enderecos", cliente.getEnderecos());
+			view.addObject("cartoes", cliente.getCartoes());
+			cartao.setIdCliente(cliente.getId());
+			view.addObject("cartao", this.cartao);
 			return view;
 		} else {
 			return new ModelAndView("redirect:/login");
@@ -184,7 +199,17 @@ public class CarrinhoController {
 		if(cliente != null) {
 			this.endereco = enderecoRepositorio.findByCepIdCliente(cliente.getId(), cep.replace("-", ""));
 			cepEntrega = endereco.getCep();
-			valorFrete = 10;
+			if ("04863450".equals(cep)) {
+				valorFrete = 30;
+			} else if ("04578910".equals(cep)) {
+				valorFrete = 20;
+			} else if ("22222222".equals(cep)) {
+				valorFrete = 50;
+			} else if ("04583110".equals(cep)) {
+				valorFrete = 10;
+			} else {
+				valorFrete = 25;
+			}
 			return new ModelAndView("redirect:/carrinho/resumo-pedido");
 		}
 		return view;
@@ -195,17 +220,49 @@ public class CarrinhoController {
 		return new ModelAndView("venda/forma-pagamento");
 	}
 	
-	@PostMapping("/forma-pagamento")
-	public ModelAndView selecionaFormaPagamento(HttpSession session, @RequestParam("cartao") String cartao, 
-			@RequestParam("boleto") String boleto, @RequestParam("parcela") int parcela) {
-		if(boleto.equals("")) {
+	@PostMapping("/pagamento-boleto")
+	public ModelAndView selecionaFormaPagamento(HttpSession session) {
+		this.formaPagamento = 3;
+		this.parcela = 0;
+		limparDadosCartao();
+		Cliente cliente = (Cliente) session.getAttribute("usuarioLogado");
+		this.cartao.setIdCliente(cliente.getId());
+		return new ModelAndView("redirect:/carrinho/resumo-pedido");
+	}
+	
+	@PostMapping("/pagamento-cartao-existente")
+	public ModelAndView pagamentoCartaoExistente(@RequestParam("id") int id, @RequestParam("parcela") int parcela) {
+		Optional<CartaoCredito> optCartao = cartaoRepositorio.findById(id);
+		if(optCartao.isPresent()) this.cartao = optCartao.get();
+		this.formaPagamento = 1;
+		this.parcela = parcela;
+		return new ModelAndView("redirect:/carrinho/resumo-pedido");
+	}
+	
+	@PostMapping("/pagamento-cartao")
+	public ModelAndView pagamentoCartao(@ModelAttribute("cartao") @Valid CartaoCredito cartao,
+            BindingResult bindingResult, RedirectAttributes redirAttr, @RequestParam("parcela") int parcela, 
+            @RequestParam("checkSalvar") String checkSalvar, HttpSession session) {
+		Cliente clienteLogado = (Cliente) session.getAttribute("usuarioLogado");
+		cartao.setIdCliente(clienteLogado.getId());
+		CartaoCredito cartCred = cartaoRepositorio.findByNumberAndIdCliente(clienteLogado.getId(), cartao.getNumero());
+		if(cartCred != null) {
+			redirAttr.addFlashAttribute("msg", "Cartão de crédito já cadastrado");
+			this.cartao = cartCred;
 			this.formaPagamento = 1;
-			this.cartao.setNumero(cartao);
-			this.setParcela(parcela);
-		} else {
-			this.formaPagamento = 3;
-			this.setParcela(0);
+			return new ModelAndView("redirect:/carrinho/resumo-pedido");
 		}
+		
+		if(bindingResult.hasErrors()) {
+			redirAttr.addFlashAttribute("msg", "Cartão inválido, verifique os dados digitados");
+			return new ModelAndView("redirect:/carrinho/resumo-pedido").addObject("cartao", cartao);
+		} else {
+			if(checkSalvar != null && cartCred == null) cartaoRepositorio.save(cartao);
+			this.cartao = cartao;
+			this.formaPagamento = 1;
+			this.setParcela(parcela);
+		}
+			
 		return new ModelAndView("redirect:/carrinho/resumo-pedido");
 	}
 	
@@ -323,6 +380,14 @@ public class CarrinhoController {
 
 	public void setCepEntrega(String cepEntrega) {
 		this.cepEntrega = cepEntrega;
+	}
+	
+	public void limparDadosCartao() {
+		this.cartao.setCodigoSeguranca("");
+		this.cartao.setNome("");
+		this.cartao.setNumero("");
+		this.cartao.setValidade("");
+		this.cartao.setId(0);
 	}
 	
 }
