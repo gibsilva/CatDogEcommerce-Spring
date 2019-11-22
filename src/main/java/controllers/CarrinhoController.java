@@ -179,8 +179,11 @@ public class CarrinhoController {
 			cliente.setCartoes(cartaoRepositorio.findByIdCliente(cliente.getId()));
 			if(this.endereco == null) {
 				Optional<Endereco> optEnd = cliente.getEnderecos().stream().findFirst();
-				this.endereco = optEnd.get();
-				this.cepEntrega = this.endereco.getCep();
+				if(optEnd.isPresent()){
+					this.endereco = optEnd.get();
+					this.cepEntrega = this.endereco.getCep();
+					this.valorFrete = 15;
+				}			
 			}
 			view.addObject("enderecos", cliente.getEnderecos());
 			view.addObject("cartoes", cliente.getCartoes());
@@ -274,7 +277,7 @@ public class CarrinhoController {
 			return new ModelAndView("redirect:/login");
 		}
 		
-		Pedido pedido = new Pedido(0, 1, LocalDateTime.now(), formaPagamento, 1, valorDesconto, endereco.getCep(), this.getValorFrete());
+		Pedido pedido = new Pedido(0, 1, LocalDateTime.now(), formaPagamento, clienteLogado.getId(), getValorDesconto(), endereco.getCep(), getValorFrete());
 		pedido.setParcela(parcela);
 		try {
 			pedidoRepositorio.save(pedido);

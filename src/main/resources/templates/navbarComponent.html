@@ -157,12 +157,11 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <div th:if="${session.usuarioLogado}">
                                     <a class="dropdown-item" th:href="@{/cliente/perfil/{id}(id=${session.usuarioLogado.id})}">Perfil</a>
-                                    <a class="dropdown-item" href="#">Meus pedidos</a>
+                                    <a class="dropdown-item" th:href="@{/cliente/perfil/{id}(id=${session.usuarioLogado.id})}">Meus pedidos</a>
                                     <a class="dropdown-item" th:href="@{/logout}">Sair</a>
                                 </div>
                                 <div th:unless="${session.usuarioLogado}">
                                     <a class="dropdown-item" th:href="@{/login}">Entrar</a>
-                                    <a class="dropdown-item" th:href="@{/pedido/lista}">Pedidos</a>
                                 </div>
                             </div>
                         </li>

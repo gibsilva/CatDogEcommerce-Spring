@@ -25,7 +25,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="p : ${itensPedido}">
-								<td><img class="imgProdutoCarrinho" src="/img/card-product1.jpg"></td>
+								<td><img width="60" height="85" class="imgProdutoCarrinho" th:src="@{/produtos/imagem/{id}(id=${p.produto.imagens[0].id})}"></td>
 								<td data-th-text="${p.produto.nome}"></td>
 								<td data-th-text="${#numbers.formatDecimal(p.produto.precoVenda,1,'DEFAULT',2,'DEFAULT')}"></td>
 								<td data-th-text="${p.quantidade}"></td>

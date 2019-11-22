@@ -68,7 +68,7 @@
                                 </thead>
                                 <tbody>
                                     <tr data-th-each="sel : ${@carrinhoController.itensSelecionados}">
-                                        <td><img class="imgProdutoCarrinho" src="/img/card-product1.jpg"></td>
+                                        <td><img width="60" height="85" class="imgProdutoCarrinho" th:src="@{/produtos/imagem/{id}(id=${sel.item.imagens[0].id})}"></td>
                                         <td data-th-text="${sel.item.nome}"></td>
                                         <td>R$ <span data-th-text="${#numbers.formatDecimal(sel.item.precoVenda,1,'DEFAULT',2,'DEFAULT')}"></span></td>
                                         <td data-th-text="${sel.quantidade}"></td>
