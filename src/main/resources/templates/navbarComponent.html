@@ -113,12 +113,12 @@
                     <ul class="navbar-nav">
                         <li class="button-container nav-item iframe-extern btn-carrinho-iframe">
                             <form class="input-group-btn ml-auto">
-                                <button type="button" class="btn btn-round btn-carrinho ">
-                                    <a href="/carrinho">
+                                <a href="/carrinho">
+                                    <button type="button" class="btn btn-round btn-carrinho btn-primary ">
                                         <label>Carrinho</label>
                                         <i class="fas fa-shopping-cart carrinhoIcone"> <span th:text="${#lists.size(@carrinhoController.itensSelecionados)}"></span></i>
-                                    </a>
-                                </button>
+                                    </button>
+                                </a>
                             </form>
                         </li>
                     </ul>
@@ -245,16 +245,13 @@
         <!-- js para modal-->
         <script>
             function abrirLogin() {
-                $('#loginModal').modal();
+            $('#loginModal').modal();
             }
         </script>
     </body>
     <footer text-center class=" footerStyle  ">
         <div class="row w-100">
-            <div class="col-md-3 col-4">
-                <h5>Logo</h5>
-            </div>
-            <div class="col-md-3 col-4">
+            <div class="col-md-4 col-4">
                 <h5>Nagevação</h5>
                 <ul class="footList">
                     <li class="footLi">
@@ -268,7 +265,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-3 col-0 d-none d-md-block">
+            <div class="col-md-4 col-0 d-none d-md-block">
                 <h5>Sobre Nós</h5>
                 <ul>
                     <li>
@@ -279,7 +276,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-3 col-4">
+            <div class="col-md-4 col-4">
                 <h5>Redes Sociais</h5>
                 <ul class="footList">
                     <li class="footLi">

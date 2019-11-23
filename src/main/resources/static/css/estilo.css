@@ -19,9 +19,7 @@ and open the template in the editor.
 .detalheForm{
     margin-top: 200px !important;
 }
-.fa-shopping-cart:hover{
-    color: black;
-}
+
 .fa-shopping-cart{
     text-align: center;
     color:  white;
@@ -33,7 +31,7 @@ and open the template in the editor.
 }
 .btn-carrinho{
     width: 80%;
-    background-color:#00aec5; 
+    background-color:#00aec5 !important; 
     min-width: 159px !important;
     max-height: 43px !important;
     color: white;
