@@ -98,26 +98,26 @@
                                         <td>R$ <span data-th-text="${#numbers.formatDecimal(sel.item.precoVenda,1,'DEFAULT',2,'DEFAULT')}"></span></td>
                                         <td class="text-center">
                                             <div class="row">
-                                                <div class="col-2 text-right">
+                                                <div class="col-4 col-md-2 offset-md-2">
                                                     <form method="post" data-th-action="@{/carrinho/{listIndex}/decrementar(listIndex=${stat.index})}" style="display: inline-block;">
                                                         <button type="submit" class="btn btn-sm btn-warning">
                                                             <i class="fa fa-minus"></i>
                                                         </button>
                                                     </form>
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-3 col-md-2 text-center">
                                                     <form id="incQtd" data-th-action="@{/carrinho/{listIndex}/alterar(listIndex=${stat.index})}" method="post" style="display: inline-block;">
                                                         <input type="number" id="qtd" name="qtd" class="form-control form-control-sm" data-th-value="${sel.quantidade}" onchange="alterarQuantidade()" />
                                                     </form>
                                                 </div>
-                                                <div class="col-2">
+                                                <div class="col-4 col-md-2">
                                                     <form data-th-action="@{/carrinho/{listIndex}/incrementar(listIndex=${stat.index})}" method="post" style="display: inline-block;">
                                                         <button type="submit" class="btn btn-sm btn-success">
                                                             <i class="fa fa-plus"></i>
                                                         </button>
                                                     </form>
                                                 </div>
-                                                <div class="col-4 text-left">
+                                                <div class="col-12 col-md-4">
                                                     <form data-th-action="@{/carrinho/{listIndex}/remover(listIndex=${stat.index})}" method="post" style="display: inline-block;">
                                                         <button type="submit" class="btn btn-sm btn-danger">
                                                             <i class="fa fa-trash"></i>
@@ -140,10 +140,10 @@
                                                 </div>
                                                 <hr>
                                                 <div class="form-group row">
-                                                    <div class="col-8">
+                                                    <div class="col-6 col-md-8">
                                                             <input maxlength="9" type="text" name="cep" class="form-control form-control-sm" id="txtCep" placeholder="CEP">
                                                     </div>
-                                                    <div class="col-4">
+                                                    <div class="col-6 col-md-4">
                                                         <button type="submit" class="btn btn-primary btnContinuar ">Calcular</button>
                                                     </div>
                                                 </div>
