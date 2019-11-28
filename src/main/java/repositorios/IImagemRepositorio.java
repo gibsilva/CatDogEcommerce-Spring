@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface IImagemRepositorio extends JpaRepository<Imagem, Integer> {
 
-    @Query(value = "SELECT * FROM IMAGEM WHERE idproduto = :idproduto", nativeQuery = true)
+    @Query(value = "SELECT * FROM imagem WHERE idproduto = :idproduto", nativeQuery = true)
     public List<Imagem> findByIdProduto(@Param("idproduto") Integer idProduto);
 }
