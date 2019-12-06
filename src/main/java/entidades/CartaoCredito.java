@@ -50,7 +50,7 @@ public class CartaoCredito implements Serializable {
     private String validade;
     
     @Column(name = "codigoseguranca")
-    @NotBlank(message = "CVV do cartão é obrigatório")
+    //@NotBlank(message = "CVV do cartão é obrigatório")
     private String codigoSeguranca;
     
     @Column(name = "idcliente")

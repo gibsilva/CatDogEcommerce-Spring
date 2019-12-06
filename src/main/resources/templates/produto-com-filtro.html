@@ -9,6 +9,7 @@
         <main layout:fragment="conteudo">
             <section class="">
                 <div class="container-fluid filterProd d-sm-none d-none d-md-block d-sm-none">
+                
                     <div class=" row">
                         <div class="card col-md-2 col-6 ">
                             <div class=" text-center">
@@ -104,9 +105,31 @@
                         </div>
                     </div>
                 </div>
-
             </section>
-
+			<section class="d-flex flex-wrap justify-content-center">
+                <div th:each="p : ${produtos}" class="item">
+                    <a th:href="@{/detalhes/{id}(id=${p.id})}">
+                        <div class="card cardHome cardList">
+                            <div class="box-image">
+                            <!--  
+                                <img class="produto" th:src="@{/produtos/imagem/{id}(id=${p.imagens[0].id})}">
+                            -->
+                            <img class="produto" src="/img/card-product1.jpg">
+                            </div>
+                            <div class="container">
+                                <h5 class="title"><span th:text="${p.nome}"></span></h5>
+                                <h4><b>R$ <span data-th-text="${#numbers.formatDecimal(p.precoVenda,1,'DEFAULT',2,'DEFAULT')}"></span></b></h4>
+                                <p class="preco">OU 4X DE R$ <span th:text="${p.precoVenda}/4"></span> SEM JUROS</p>
+                                <div class="stats">
+                                    <button type="button" rel="tooltip" title="" class="btn btn-just-icon btn-link btn-rose" data-original-title="Salvar nos Favoritos">
+                                        <i class="material-icons">favorite</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
             <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
             <script th:inline="javascript">

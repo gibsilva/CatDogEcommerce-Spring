@@ -13,7 +13,8 @@
                                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                     <div class="carousel-inner">
 	                                    <div th:each="p,i : ${produto.imagens}" class="carousel-item" th:classappend="${i.index == 0} ? active">
-	                                        <img class="d-block carousel-picture " th:src="@{/produtos/imagem/{id}(id=${p.id})}" alt="First slide">
+	                                    <!-- <img class="d-block carousel-picture " th:src="@{/produtos/imagem/{id}(id=${p.id})}" alt="First slide"> -->
+	                                        <img class="d-block carousel-picture " src="/img/card-product1.jpg" alt="First slide">
 	                                    </div>
                                     </div>
                                     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">

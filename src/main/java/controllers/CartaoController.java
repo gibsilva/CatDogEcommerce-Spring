@@ -36,6 +36,7 @@ public class CartaoController {
 	@PostMapping("/salvar")
 	public ModelAndView salvar(@ModelAttribute("cartao") @Valid CartaoCredito cartao,
             BindingResult bindingResult, RedirectAttributes redirAttr){
+		cartao.setCodigoSeguranca("");
 		if(bindingResult.hasErrors())
 			return new ModelAndView("cartao/incluir-cartao");
 		else
@@ -55,6 +56,7 @@ public class CartaoController {
 	@PostMapping("/alterar")
 	public ModelAndView alterar(@ModelAttribute("cartao") @Valid CartaoCredito cartao,
             BindingResult bindingResult, RedirectAttributes redirAttr) {
+		cartao.setCodigoSeguranca("");
         if (bindingResult.hasErrors()) 
             return new ModelAndView("cartao/alterar-cartao");
         else 

@@ -41,7 +41,10 @@
                     <a th:href="@{/detalhes/{id}(id=${p.id})}">
                         <div class="card cardHome cardList">
                             <div class="box-image">
+                            <!--  
                                 <img class="produto" th:src="@{/produtos/imagem/{id}(id=${p.imagens[0].id})}">
+                            -->
+                            <img class="produto" src="/img/card-product1.jpg">
                             </div>
                             <div class="container">
                                 <h5 class="title"><span th:text="${p.nome}"></span></h5>

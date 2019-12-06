@@ -260,6 +260,7 @@ public class CarrinhoController {
 			redirAttr.addFlashAttribute("msg", "Cartão inválido, verifique os dados digitados");
 			return new ModelAndView("redirect:/carrinho/resumo-pedido").addObject("cartao", cartao);
 		} else {
+			cartao.setCodigoSeguranca("");
 			if(checkSalvar != null && cartCred == null) cartaoRepositorio.save(cartao);
 			this.cartao = cartao;
 			this.formaPagamento = 1;
